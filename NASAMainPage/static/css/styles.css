@@ -1,0 +1,12 @@
+h1 {
+    color: #333;
+    text-align: center;
+    padding: 20px
+}
+
+img {
+    width: 200px; /* Set the desired width */
+    height: auto; /* Maintain aspect ratio */
+    float: right; /* Position the image on the right side */
+    margin: 20px; /* Add some margin for spacing */
+}

@@ -10,3 +10,4 @@ class Picture(models.Model):
 class AIModel(models.Model):
     model_name = models.CharField(max_length=200)
     model_path = models.FileField(upload_to="uploads/")
+    model_image = models.ImageField()
