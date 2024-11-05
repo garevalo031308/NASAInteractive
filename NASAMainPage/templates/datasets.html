@@ -32,9 +32,8 @@
             <h3 id="dataset-name">{{ dataset }}</h3>
             <h4>Number of Images: {{ data.number_of_images }}</h4>
             {% for class in data.classes %}
-                <div class="dataset-list-item" style="background-image: url('NASAMainPage/Datasets/HiRISE/Other/ESP_011283_2265_RED-0032.jpg');">
+                <div class="dataset-list-item" style="background-image: url('{% static class.random_image %}');">
                     {{ class.class_name }}
-                    <p>{{ class.random_image }}</p> <!-- Print the image URL for debugging -->
                 </div>
             {% endfor %}
         </div>

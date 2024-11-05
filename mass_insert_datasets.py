@@ -35,7 +35,7 @@ for dataset_name in os.listdir(dataset_root):
                             image_path = os.path.join(class_path, image_name)
                             if os.path.isfile(image_path):
                                 # Define the destination path for the image
-                                dest_dir = os.path.join('NASAMainPage', 'Datasets', dataset_name, class_name)
+                                dest_dir = os.path.join('NASAMainPage','static', 'Datasets', dataset_name, class_name)
                                 os.makedirs(dest_dir, exist_ok=True)
                                 dest_path = os.path.join(dest_dir, image_name)
 

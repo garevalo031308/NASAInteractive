@@ -34,7 +34,7 @@ class Picture(models.Model):
             self.image_name = self.image.name
 
         # Define the path for the new image
-        self.image.field.upload_to = os.path.join('NASAMainPage', 'Datasets', self.dataset.dataset_name, self.dataset_class.dataset_class_name)
+        self.image.field.upload_to = os.path.join('NASAMainPage', 'static', 'Datasets', self.dataset.dataset_name, self.dataset_class.dataset_class_name)
         super().save(*args, **kwargs)
 
 
@@ -63,7 +63,7 @@ class Fold(models.Model):
 def create_dataset_directory(sender, instance, created, **kwargs):
     if created:
         # Define the path for the new directory
-        new_directory_path = os.path.join('NASAMainPage', 'Datasets', instance.dataset_name)
+        new_directory_path = os.path.join('NASAMainPage', 'static', 'Datasets', instance.dataset_name)
 
         # Create the new directory
         os.makedirs(new_directory_path, exist_ok=True)
@@ -74,7 +74,7 @@ def create_classes_directory(sender, instance, created, **kwargs):
         # Define the path for the new directory
         dataset_name = instance.dataset.dataset_name
         class_name = instance.dataset_class_name
-        new_directory_path = os.path.join('NASAMainPage', 'Datasets', dataset_name, class_name)
+        new_directory_path = os.path.join('NASAMainPage', 'static', 'Datasets', dataset_name, class_name)
 
         # Create the new directory
         os.makedirs(new_directory_path, exist_ok=True)

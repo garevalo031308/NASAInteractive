@@ -1,5 +1,7 @@
 # NASAMainPage/views.py
 import datetime
+import os
+
 from django.shortcuts import render
 from django.http import HttpResponse
 import subprocess, random
@@ -25,10 +27,15 @@ def datasets(request):
         for cls in classes:
             pictures = Picture.objects.filter(dataset_class=cls)
             random_picture = random.choice(pictures) if pictures else None
+            if random_picture:
+                relative_image_path = os.path.relpath(random_picture.image.path, 'NASAMainPage/static/')
+                image_url = f"{relative_image_path}"
+            else:
+                image_url = None
             class_data.append({
                 'class_name': cls.dataset_class_name,
                 'number_of_images': cls.class_number_of_images,
-                'random_image': random_picture.image.url if random_picture else None
+                'random_image': image_url
             })
         datasets_with_classes[dataset.dataset_name] = {
             'classes': class_data,
