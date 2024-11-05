@@ -1,3 +1,4 @@
+<!-- NASAMainPage/templates/home.html -->
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -5,15 +6,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 </head>
-<header>
-    <div class="header">
+<body>
+<div id="top-nav-bar">
+    <div id="pagetop">
         <img id="NASALogo" src="{% static 'images/nasa_logo.png' %}" alt="NASA Logo">
         <img id="EasternLogo" src="{% static 'images/eastern_logo.png' %}" alt="Eastern Logo">
+        <h1 id="CNN">Evaluating Convolutional Neural Networks for Image Classification: A Study Using NASA Mars Data</h1>
     </div>
-    <h1 id="CNN">Evaluating Convolutional Neural Networks for Image Classification: A Study Using NASA Mars Data</h1>
-</header>
-<body>
+</div>
+<div id="subtopnav">
+    <a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a>
+    <a href="{% url 'models' %}" class="{% if request.resolver_match.url_name == 'models' %}active{% endif %}">Models</a>
+    <a href="{% url 'datasets' %}" class="{% if request.resolver_match.url_name == 'datasets' %}active{% endif %}">Datasets</a>
+    <a href="{% url 'game' %}" class="{% if request.resolver_match.url_name == 'game' %}active{% endif %}">Game</a>
+    <a href="{% url 'about-us' %}" class="{% if request.resolver_match.url_name == 'about-us' %}active{% endif %}">About Us</a>
+</div>
+<div id="abstract">
+    <article>
+        <h2 id = "abstracth">Abstract</h2>
+        <p id="abstractp">Deep learning, especially through Convolutional Neural Networks (CNNs), has become an essential tool in computer vision,
+            enabling significant advancements in tasks such as image recognition and classification. This study aims to evaluate the performance of
+            three well-known CNN architectures – VGGNet, InceptionNet, and DenseNet – using a NASA Mars image dataset.
+            The research focuses on how effectively each architecture classifies Mars images, applying a range of performance metrics,
+            including accuracy, precision, recall, and F1 score, to gauge their effectiveness. Additionally, statistical methods were employed to compare the results across the models,
+            determining whether any architecture significantly outperforms the others in a meaningful way. Conducted as part of the 2024 summer research project,
+            this work involved three CSC students, with partial support from NASA Research Grants. The project was led by Drs. Gao and Tasneem as Principal Investigators.
+            This presentation summarizes the findings and offers valuable insights for future deep learning applications in planetary image analysis and exploration.</p>
+    </article>
+</div>
 </body>
 </html>

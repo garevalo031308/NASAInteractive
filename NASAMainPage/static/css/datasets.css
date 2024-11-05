@@ -1,0 +1,44 @@
+body {
+    background-color: #EFD6AC;
+    display: block; /* Change from flex to block */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
+
+#dataset-list {
+    margin-top: 300px;
+    text-align: left; /* Align the content to the left */
+    margin-left: 20px; /* Add some left margin if needed */
+}
+
+#dataset-name {
+    text-align: left;
+    margin-left: 0; /* Ensure it aligns to the left */
+}
+
+.dataset-list-item {
+    border-radius: 28px;
+    border: 1px solid #18ab29;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-size: 17px;
+    padding: 16px 31px;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #2f6627;
+    background-size: cover; /* Ensure the background image covers the entire div */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Prevent the background image from repeating */
+}
+
+.dataset-list-item:active {
+    position: relative;
+    top: 1px;
+}
+
+.dataset-item {
+    padding-bottom: 20px;
+    font-size: 20px;
+    background-color: cyan;
+    margin-bottom: 20px; /* Add a gap between items */
+}

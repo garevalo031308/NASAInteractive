@@ -1,0 +1,113 @@
+#NASALogo {
+    width: 236px; /* Set the desired width */
+    height: 216px;
+    display: block;
+    margin-right: 20px; /* Add some space to the right of the NASA logo */
+    float: left;
+}
+
+#EasternLogo {
+    width: 940px; /* Set the width to 940px */
+    height: 216px; /* Set the height to 216px */
+    display: block; /* Make the image a block element */
+    margin: 0 auto; /* Center the image horizontally */
+}
+
+#CNN {
+    color: #002656;
+    text-align: center; /* Center the heading */
+    width: 100%; /* Ensure the heading takes full width */
+    margin-top: 20px; /* Add some space above the heading */
+    /*border: solid 1px black; !* Add border *!*/
+    float: none;
+}
+
+#top-nav-bar{
+    height: 0;
+    display: block;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 4;
+    background-color: aliceblue;
+}
+
+#top-nav-bar > #pagetop {
+    position: absolute;
+    padding: 0;
+    background-color: aliceblue;
+    height: 280px;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+#pagetop {
+    position: fixed;
+    z-index: 4;
+    background-color: aliceblue;
+    min-width: 350px;
+}
+
+#subtopnav {
+    position: fixed;
+    background-color: black;
+    color: #002656;
+    padding: 0;
+    letter-spacing: 1px;
+    top: 280px;
+    z-index: 2;
+    width: 100%;
+    overflow: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+}
+
+#subtopnav a {
+    display: inline-block;
+    width: auto;
+    margin: 0 !important;
+    padding: 5px 15px 5px 15px !important;
+    font-size: 15px !important;
+    line-height: 1.5;
+    background-color: #ffffff;
+}
+
+/*Page is active*/
+#subtopnav a.active {
+    background-color: #002656 !important; /* Change to your desired color */
+    color: #fff !important;
+}
+
+/*Hovering over text*/
+#subtopnav a:hover{
+    color: #fff;
+    background-color: aquamarine;
+}
+
+#abstract {
+    top: 350px;
+    position: relative;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+
+}
+#abstracth {
+    font-size: 40px;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+#abstractp {
+    font-size: 30px;
+    text-align: center;
+}
+
+body {
+    background-color: #EFD6AC;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
