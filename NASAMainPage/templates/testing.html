@@ -1,8 +1,12 @@
 <!DOCTYPE html>
+{%  load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+{#    <script src="{% static 'scripts/LoadModel.js' %}" defer></script>#}
+    <script src="/NASAMainPage/static/scripts/LoadModel.js" defer></script>
 </head>
 <body>
 <article>
@@ -13,5 +17,6 @@
     </header>
     <p>Lorem Ipsum dolor set amet....</p>
 </article>
+<div id="prediction-result">testing</div>
 </body>
 </html>

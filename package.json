@@ -1,0 +1,17 @@
+{
+  "name": "nasainteractive",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/garevalo031308/NASAInteractive.git"
+  },
+  "private": true,
+  "dependencies": {
+    "@tensorflow/tfjs": "^4.22.0"
+  }
+}
