@@ -4,7 +4,10 @@ from .models import Picture, AIModel, Dataset, DatasetClasses, Fold
 
 # Register your models here.
 class DatasetAdmin(admin.ModelAdmin):
-    fields = ["dataset_name", "dataset_number_of_images"]
+    fieldsets = [
+        ("Insert .zip of Dataset", {"fields": "dataset_zip"}),
+        (None, {"fields" : ["dataset_name", "dataset_number_of_images"]})
+    ]
 
 
 admin.site.register(Dataset, DatasetAdmin)

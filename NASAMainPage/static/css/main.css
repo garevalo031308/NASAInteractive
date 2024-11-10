@@ -22,7 +22,7 @@
     float: none;
 }
 
-#top-nav-bar{
+#top-nav-bar {
     height: 0;
     display: block;
     width: 100%;
@@ -61,7 +61,7 @@
     overflow: auto;
     white-space: nowrap;
     scrollbar-width: none;
-    /*height: 50px; !* Define the height of subtopnav *!*/
+    z-index: 5; /* Ensure it appears above top-nav-bar */
 }
 
 #subtopnav a {
@@ -74,14 +74,12 @@
     background-color: #ffffff;
 }
 
-/*Page is active*/
 #subtopnav a.active {
-    background-color: #002656 !important; /* Change to your desired color */
+    background-color: #002656 !important;
     color: #fff !important;
 }
 
-/*Hovering over text*/
-#subtopnav a:hover{
+#subtopnav a:hover {
     color: #fff;
     background-color: aquamarine;
 }

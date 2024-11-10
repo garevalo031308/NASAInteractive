@@ -1,0 +1,4 @@
+TODO:
+- Upload a .zip file for datasets, that can unpack and create classes, images, and insert into database.
+- Upload a .zip file for AI Model, that unpacks it and gets the model.json
+- Upload a .keras file for AI model, then convert it to tensorflowjs

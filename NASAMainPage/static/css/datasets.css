@@ -1,19 +1,36 @@
 body {
     background-color: #EFD6AC;
-    display: block; /* Change from flex to block */
-    margin: 0; /* Remove default margin */
-    padding: 0; /* Remove default padding */
+    overflow-y: auto; /* Enable vertical scrolling for the entire page */
+    display: block; /* Ensure body content is not centered */
+    align-items: flex-start; /* Align items to the start */
+}
+
+#datasettitle {
+    text-align: center;
+    margin-top: 330px; /* Adjust this value to be greater than the height of #subtopnav */
+    position: relative;
 }
 
 #dataset-list {
-    top: 330px; /* Adjust this value to be greater than the height of #subtopnav */
+    column-count: 3;
+
+    position: relative;
+    margin-top: 50px; /* Adjust this value to create space below the title */
+    left: 0; /* Ensure it is aligned to the left */
     text-align: left; /* Align the content to the left */
-    margin-left: 20px; /* Add some left margin if needed */
+    padding: 4px 20px; /* Add padding to the sides */
+    z-index: -1; /* Ensure it appears below subtopnav */
+    /*height: calc(100vh - 330px); !* Set a fixed height *!*/
+    overflow-y: visible; /* Allow the content to be visible */
+    margin-left: 0; /* Ensure it is aligned to the left */
+}
+#dataset-name {
+    text-align: center;
+    margin-left: 0; /* Ensure it aligns to the left */
 }
 
-#dataset-name {
-    text-align: left;
-    margin-left: 0; /* Ensure it aligns to the left */
+#numberofimages {
+    text-align: center;
 }
 
 .dataset-list-item {
@@ -37,8 +54,8 @@ body {
 }
 
 .dataset-item {
-    padding-bottom: 20px;
+    padding: 20px; /* Add padding inside each dataset item */
     font-size: 20px;
-    background-color: cyan;
+    background-color: #BFA17B;
     margin-bottom: 20px; /* Add a gap between items */
 }

@@ -24,15 +24,13 @@
     <a href="{% url 'game' %}" class="{% if request.resolver_match.url_name == 'game' %}active{% endif %}">Game</a>
     <a href="{% url 'about-us' %}" class="{% if request.resolver_match.url_name == 'about-us' %}active{% endif %}">About Us</a>
 </div>
-
-
+<h2 id="datasettitle">Available Datasets</h2>
 
 <div id="dataset-list">
-    <h2>Available Datasets</h2>
     {% for dataset, data in datasets_with_classes.items %}
         <div class="dataset-item">
             <h3 id="dataset-name">{{ dataset }}</h3>
-            <h4>Number of Images: {{ data.number_of_images }}</h4>
+            <h4 id="numberofimages">Number of Images: {{ data.number_of_images }}</h4>
             {% for class in data.classes %}
                 <div class="dataset-list-item" style="background-image: url('{% static class.random_image %}');">
                     {{ class.class_name }}
