@@ -1,0 +1,11 @@
+<!-- templates/admin/insert_dataset_changelist.html -->
+{% extends "admin/change_list.html" %}
+{% block object-tools %}
+    <div class="object-tools">
+        <ul class="object-tools">
+            <li>
+                <a href="{% url 'admin:upload-zip' %}" class="addlink">Upload Dataset Zip</a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}

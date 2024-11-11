@@ -4,7 +4,7 @@ from django.db import models
 import os
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from mass_insert import mass_insert
+from NASAMainPage.static.scripts.mass_insert import mass_insert
 
 def validate_zip_file(value):
     if not value.name.endswith('.zip'):
@@ -19,21 +19,28 @@ def validate_picture_file(value):
     elif not value.name.endswith('.png'):
         raise ValidationError('Only .jpg, jpeg, or .png files are allowed.')
 
+class InsertDatasetZip(models.Model):
+    dataset_zip = models.FileField(upload_to='NASAMainPage/static/temp/', validators=[validate_zip_file])
+
+    def save(self, *args, **kwargs):
+        # Save the instance to the database first
+        super().save(*args, **kwargs)
+
+        # After saving, execute the mass_insert script
+        if self.dataset_zip:
+            # Get the full path of the uploaded file
+            zip_file_path = self.dataset_zip.path
+            print(zip_file_path)
+            # Execute the mass_insert script with the full path
+            mass_insert(zip_file_path)
+
 class Dataset(models.Model):
     dataset_name = models.CharField(max_length=200)
     dataset_number_of_images = models.IntegerField()
-    dataset_zip = models.FileField(upload_to='temp/', validators=[validate_zip_file], blank=True, null=True)
+    dataset_description = models.TextField()
 
     def __str__(self):
         return self.dataset_name
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if self.dataset_zip:
-            # Get the base name of the uploaded file
-            zip_file_name = os.path.basename(self.dataset_zip.name)
-            # Execute the mass_insert script
-            mass_insert(zip_file_name)
 
 class DatasetClasses(models.Model):
     dataset = models.ForeignKey(Dataset, on_delete=models.CASCADE)

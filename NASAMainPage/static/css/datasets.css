@@ -12,18 +12,19 @@ body {
 }
 
 #dataset-list {
-    column-count: 3;
-
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Create three equal columns */
+    gap: 20px; /* Add space between the grid items */
     position: relative;
-    margin-top: 50px; /* Adjust this value to create space below the title */
+    margin-top: 25px; /* Adjust this value to create space below the title */
     left: 0; /* Ensure it is aligned to the left */
     text-align: left; /* Align the content to the left */
     padding: 4px 20px; /* Add padding to the sides */
-    z-index: -1; /* Ensure it appears below subtopnav */
-    /*height: calc(100vh - 330px); !* Set a fixed height *!*/
+    z-index: 0; /* Ensure it appears above other elements */
     overflow-y: visible; /* Allow the content to be visible */
     margin-left: 0; /* Ensure it is aligned to the left */
 }
+
 #dataset-name {
     text-align: center;
     margin-left: 0; /* Ensure it aligns to the left */
@@ -35,7 +36,7 @@ body {
 
 .dataset-list-item {
     border-radius: 28px;
-    border: 1px solid #18ab29;
+    border: 2px solid red;
     display: inline-block;
     cursor: pointer;
     color: #ffffff;
@@ -46,6 +47,8 @@ body {
     background-size: cover; /* Ensure the background image covers the entire div */
     background-position: center; /* Center the background image */
     background-repeat: no-repeat; /* Prevent the background image from repeating */
+    z-index: 5; /* Ensure it is above other elements */
+    position: relative; /* Ensure z-index is applied */
 }
 
 .dataset-list-item:active {

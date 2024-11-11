@@ -43,6 +43,8 @@ def datasets(request):
         }
     return render(request, 'datasets.html', {'datasets_with_classes': datasets_with_classes})
 
+def dataset(request, dataset_name):
+    return HttpResponse("You're looking at dataset %s" % dataset_name)
 def game(request):
     return render(request, "game.html")
 

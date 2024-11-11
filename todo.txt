@@ -1,4 +1,25 @@
 TODO:
-- Upload a .zip file for datasets, that can unpack and create classes, images, and insert into database.
 - Upload a .zip file for AI Model, that unpacks it and gets the model.json
 - Upload a .keras file for AI model, then convert it to tensorflowjs
+- On a dataset delete, delete the files under the Datasets folder
+- On datasets, be able to click on one of the classes, and it brings you to the class (bring you to overall page but filtered)
+- On datasets, be able to click on the name, and bring you to the overall page
+- On datasets, make it show the distribution of the images
+- On datasets overall page, make sure you can go through the classes, distribution, about the dataset, and an occupying image (if none get random one from dataset)
+- On datasets overall page, havea section that shows which models ran on this dataset
+- On models page, give a box that contains the model, accuracy, and folds if there are any
+- On models page, be able to click on each fold, then be able to test out that fold
+- On models page, if no fold, then be able to test overall model
+- On models page, contain overall information (overall acuraccy, table, etc.)
+- On folds page, contain each information for each fold
+
+Database:
+- Add fields to make AI model and stuff more modular
+    - General description
+    - Image of architecture
+    - How many folds (similar to choice in Django)
+    - An overall table (possibly insert a .csv file or a .xlsx file, or a .png)
+
+- Datasets Table
+    - General description
+    - What AI model(s) it was trained upon
