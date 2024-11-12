@@ -2,8 +2,8 @@
 import datetime
 import os
 
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse, JsonResponse
 import subprocess, random
 
 from .models import Dataset,DatasetClasses, Picture
@@ -43,8 +43,48 @@ def datasets(request):
         }
     return render(request, 'datasets.html', {'datasets_with_classes': datasets_with_classes})
 
-def dataset(request, dataset_name):
-    return HttpResponse("You're looking at dataset %s" % dataset_name)
+
+def dataset_detail(request, dataset_name):
+    dataset = get_object_or_404(Dataset, dataset_name=dataset_name)
+    dataset_classes = DatasetClasses.objects.filter(dataset=dataset)
+    total_number_of_images = dataset.dataset_number_of_images
+    images = {}
+    for cls in dataset_classes:
+        paths_list = []
+        list_of_images = Picture.objects.filter(dataset=dataset, dataset_class=cls)
+        for image in list_of_images:
+            paths_list.append({image.image_name : os.path.relpath(image.image.path,'NASAMainPage/static/')})
+        images[cls.dataset_class_name] = paths_list
+
+    cls_info = {}
+    for cls in dataset_classes:
+        class_name = cls.dataset_class_name
+        number_of_images = cls.class_number_of_images
+        percentage = f"{number_of_images / total_number_of_images:.1%}"
+        cls_info[class_name] = {number_of_images : percentage}
+    #
+    # print(images)
+    #
+    # for i in images:
+    #     print(i)
+
+    return render(request, 'dataset.html', {
+        'dataset': dataset,
+        'cls_info': cls_info,
+        'total_images': total_number_of_images,
+        'images' : images
+    })
+
+def load_images(request):
+    page = int(request.GET.get('page', 1))
+    images_per_page = 100  # Adjust as needed
+    start = (page - 1) * images_per_page
+    end = start + images_per_page
+    images = Picture.objects.all()[start:end]
+    image_data = [{'name': img.image_name, 'path': img.image_path} for img in images]
+    has_more = Picture.objects.count() > end
+    return JsonResponse({'images': image_data, 'has_more': has_more})
+
 def game(request):
     return render(request, "game.html")
 

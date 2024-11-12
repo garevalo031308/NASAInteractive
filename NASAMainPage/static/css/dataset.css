@@ -1,0 +1,37 @@
+body {
+    display: grid;
+}
+
+#datasettitle {
+    text-align: center;
+    margin-top: 330px;
+    position: relative;
+}
+
+#datasetinfo {
+    position: relative;
+    margin-top: 25px;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    gap: 20px; /* Space between columns */
+}
+
+#datasetdescription {
+    height: 500px; /* Set the desired height */
+    overflow: auto; /* Add scrollbars if content exceeds the height */
+}
+
+#dataset-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust the minmax value as needed */
+    gap: 50px; /* Space between grid items */
+}
+
+
+table, th, td {
+    border: 1px solid black
+}
+
+table {
+    width: 100%;
+}

@@ -31,7 +31,9 @@
 <div id="dataset-list">
     {% for dataset, data in datasets_with_classes.items %}
         <div class="dataset-item">
-            <h3 id="dataset-name">{{ dataset }}</h3>
+            <h3 id="dataset-name">
+                <a href="{% url 'dataset_detail' dataset_name=dataset %}">{{ dataset }}</a>
+            </h3>
             <h4 id="numberofimages">Number of Images: {{ data.number_of_images }}</h4>
             {% for class in data.classes %}
                 <a class="dataset-list-item" style="background-image: url('{% static class.random_image %}');">
