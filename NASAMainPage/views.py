@@ -41,7 +41,7 @@ def datasets(request):
             'classes': class_data,
             'number_of_images': sum(cls.class_number_of_images for cls in classes)
         }
-    return render(request, 'datasets.html', {'datasets_with_classes': datasets_with_classes})
+    return render(request, 'datasets/datasets.html', {'datasets_with_classes': datasets_with_classes})
 
 
 def dataset_detail(request, dataset_name):
@@ -68,7 +68,7 @@ def dataset_detail(request, dataset_name):
     # for i in images:
     #     print(i)
 
-    return render(request, 'dataset.html', {
+    return render(request, 'datasets/dataset.html', {
         'dataset': dataset,
         'cls_info': cls_info,
         'total_images': total_number_of_images,

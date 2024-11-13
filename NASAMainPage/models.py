@@ -8,7 +8,6 @@ import os
 from zipfile import ZipFile
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from scripts.regsetup import description
 
 from NASAMainPage.static.scripts.mass_insert import mass_insert
 
