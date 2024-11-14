@@ -12,6 +12,8 @@ TODO:
 - On models page, if no fold, then be able to test overall model
 - On models page, contain overall information (overall acuraccy, table, etc.)
 - On folds page, contain each information for each fold
+- On folds page, show images from that fold
+    - Csv file that contains images, then get that from database
 
 Database:
 - Add fields to make AI model and stuff more modular
