@@ -24,7 +24,7 @@ body {
 #dataset-images {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust the minmax value as needed */
-    gap: 50px; /* Space between grid items */
+    gap: 20px; /* Space between grid items */
 }
 
 .pagination a{
