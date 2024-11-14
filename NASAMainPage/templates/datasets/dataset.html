@@ -9,11 +9,10 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/dataset.css' %}">
     <script>
-        // Embed the variables as JSON in the HTML
         const cls_info = {{ cls_info|safe }};
         const dataset = "{{ dataset }}";
         const total_images = {{ total_images }};
-        const images = {{ images|safe }}
+        const images = {{ images|safe }};
     </script>
     <script src="{% static 'scripts/datasets/pagination.js' %}"></script>
 </head>
@@ -36,6 +35,7 @@
 </div>
 <h2 id="datasettitle">{{ dataset }} Dataset</h2>
 <div id="datasetinfo">
+{#    <h2>{{ dataset }} Dataset Description</h2>#}
     <h3 id="datasetdescription">{{ dataset.dataset_description|linebreaksbr }}</h3>
     <div id="datasettable">
         <h2>{{ dataset }} Dataset Image Distribution</h2>
@@ -48,43 +48,31 @@
             </tr>
             {% for cls, info in cls_info.items %}
                 {% for total, percent in info.items %}
-                <tr>
-                    <td>{{ cls }}</td>
-                    <td>{{ total }}</td>
-                    <td>{{ percent }}</td>
-                </tr>
+                    <tr>
+                        <td>{{ cls }}</td>
+                        <td>{{ total }}</td>
+                        <td>{{ percent }}</td>
+                    </tr>
                 {% endfor %}
             {% endfor %}
         </table>
     </div>
 </div>
-<div id="dataset-images">
-    <div class="image-container">
-        <div class="image" id="image">
-            <h1 id="test"></h1>
-        </div>
-    </div>
+<div id="dataset-filter">
+    {% for cls, image in images.items  %}
+        <input type="radio" id="{{ cls }}" name="class" value="{{ cls }}">
+        <label for="{{ cls }}">{{ cls }}</label>
+    {% endfor %}
+    <input type="button" name="filter" value="Filter">
 </div>
-{#<div id="dataset-images">#}
-{#    {% for cls, image in images.items %}#}
-{#        <h3 id="class_name">{{ cls }}</h3>#}
-{#        {% for item in image %}#}
-{#            {% for name, path in item.items %}#}
-{#                <div id="dataset-image">#}
-{#                    <img src="{% static path %}" alt="{{ name }}"/>#}
-{#                    <h3>{{ name }}</h3>#}
-{#                </div>#}
-{#            {% endfor %}#}
-{#        {% endfor %}#}
-{#    {% endfor %}#}
-{#</div>#}
+<div>
+    <label for="class-filter"></label><input type="text" id="class-filter" placeholder="Search by class">
+</div>
+<div id="dataset-images"></div>
 <div class="pagination" id="pagination">
     <a href="#" id="prev">Previous</a>
-    <a href="#" class="page-link" data-page="1">1</a>
-    <a href="#" class="page-link" data-page="2">2</a>
-    <a href="#" class="page-link" data-page="3">3</a>
     <a href="#" id="next">Next</a>
-    <p id="page-numbers"> </p>
+    <p id="page-numbers"></p>
 </div>
 </body>
 </html>
