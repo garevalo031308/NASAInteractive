@@ -50,3 +50,40 @@ table, th, td {
 table {
     width: 100%;
 }
+
+#dataset-filter {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black; /* Add a border */
+    padding: 5px; /* Optional: Add some padding inside the border */
+    border-radius: 5px; /* Optional: Add rounded corners */
+    max-width: 300px;
+}
+
+#filter_class {
+    display: block;
+}
+
+#filter_label{
+    display: block;
+}
+
+#class_buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+#class_buttons input[type="radio"] {
+    margin-right: 10px; /* Space between radio button and label */
+}
+
+#class_buttons label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; /* Space between each choice */
+}
+
+#class_buttons div {
+    display: flex;
+    align-items: center; /* Vertically center the radio button with the label */
+}
