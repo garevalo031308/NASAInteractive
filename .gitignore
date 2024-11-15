@@ -17,3 +17,4 @@ NASAMainPage/migrations/__pycache__/0002_alter_dataset_dataset_number_of_images.
 NASAMainPage/migrations/__pycache__/0003_delete_insertdatasetzip.cpython-312.pyc
 NASAMainPage/migrations/__pycache__/__init__.cpython-312.pyc
 NASAMainPage/static/scripts/__pycache__/mass_insert.cpython-312.pyc
+*.pyc
