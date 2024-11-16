@@ -66,6 +66,7 @@ table {
 
 #filter_label{
     display: block;
+    top: 20px;
 }
 
 #class_buttons {
@@ -75,12 +76,14 @@ table {
 
 #class_buttons input[type="radio"] {
     margin-right: 10px; /* Space between radio button and label */
+    vertical-align: middle; /* Align the radio button vertically in the middle */
 }
 
 #class_buttons label {
-    display: flex;
-    align-items: center;
+    display: inline-block;
+    line-height: 1.2; /* Adjust the line height to match the height of the radio button */
     margin-bottom: 10px; /* Space between each choice */
+    padding-top: 1px; /* Fine-tune the vertical alignment */
 }
 
 #class_buttons div {
