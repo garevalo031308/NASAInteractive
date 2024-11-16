@@ -59,16 +59,16 @@
     </div>
 </div>
 <div id="dataset-filter">
-    <div id="filter_title"><h3> Filter By Class </h3></div>
+{#    <div id="filter_title"><h3> Filter By Class </h3></div>#}
         <div id="class_buttons">
             {% for cls, image in images.items %}
-                <div>
+                <form>
                     <input type="radio" id="filter_class" name="class" value="{{ cls }}">
                     <label id="filter_label" for="filter_class">{{ cls }}</label>
-                </div>
+                </form>
             {% endfor %}
         </div>
-    <input type="button" name="filter" value="Filter">
+{#    <input type="button" name="filter" value="Filter" id="filter_button">#}
 </div>
 <div>
     <label for="class-filter"></label><input type="text" id="class-filter" placeholder="Search by class">
