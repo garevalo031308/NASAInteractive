@@ -51,42 +51,30 @@ table {
     width: 100%;
 }
 
-#dataset-filter {
-    display: flex;
-    flex-direction: column;
-    border: 2px solid black; /* Add a border */
-    padding: 5px; /* Optional: Add some padding inside the border */
-    border-radius: 5px; /* Optional: Add rounded corners */
-    max-width: 300px;
+form {
+    border: #b69f77 5px solid;
+    width: fit-content;
+    background-color: #ffeeca;
+    padding-left: 25px;
+    padding-right: 25px;
 }
 
-#filter_class {
+.class_labels{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    /*margin-left: 10px;*/
+}
+
+#filterbutton {
     display: block;
+    margin: 15px auto; /* Center horizontally */
+    align-items: center;
 }
 
-#filter_label{
-    display: block;
-    top: 20px;
+#class_label {
+    margin-top: 25px;
 }
 
-#class_buttons {
-    display: flex;
-    flex-direction: column;
-}
-
-#class_buttons input[type="radio"] {
-    margin-right: 10px; /* Space between radio button and label */
-    vertical-align: middle; /* Align the radio button vertically in the middle */
-}
-
-#class_buttons label {
-    display: inline-block;
-    line-height: 1.2; /* Adjust the line height to match the height of the radio button */
-    margin-bottom: 10px; /* Space between each choice */
-    padding-top: 1px; /* Fine-tune the vertical alignment */
-}
-
-#class_buttons div {
-    display: flex;
-    align-items: center; /* Vertically center the radio button with the label */
+#filterlabel {
+    text-align: center;
 }
