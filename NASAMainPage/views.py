@@ -6,7 +6,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 import subprocess, random
 
-from .models import Dataset,DatasetClasses, Picture
+from .models import Dataset,DatasetClasses, Picture, AIModel
 
 def current_datetime(request):
     now = datetime.datetime.now()
@@ -17,6 +17,11 @@ def home(request):
     return render(request, 'home.html')
 
 # NASAMainPage/views.py
+
+def models(request):
+    models = AIModel.objects.all()
+    list_models = [model for model in models]
+    return render(request, "models/models.html", {"models":list_models})
 
 def datasets(request):
     datasets = Dataset.objects.all()
@@ -87,9 +92,6 @@ def load_images(request):
 
 def game(request):
     return render(request, "game.html")
-
-def models(request):
-    return render(request, "models.html")
 
 def about_us(request):
     return render(request, "about_us.html")

@@ -1,0 +1,16 @@
+body {
+    overflow-y: auto;
+    display: block;
+    align-items: flex-start;
+}
+
+#modeltitle {
+    text-align: center;
+    margin-top: 330px;
+    position: relative;
+}
+
+#modelslist{
+    display: grid;
+    margin-top: 25px;
+}
