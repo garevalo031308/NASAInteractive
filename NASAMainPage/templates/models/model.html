@@ -8,6 +8,10 @@
     <title>{{ model.model_name }}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/model.css' %}">
+    <script>
+        const fold = {{ fold|safe }};
+    </script>
+    <script src="{% static 'scripts/models/fold_pages.js' %}"></script>
 </head>
 <body>
 <div id="top-nav-bar">
@@ -46,10 +50,14 @@
         <h3>{{ section.section_info }}</h3>
     {% endfor %}
 </div>
+
 <div id="foldbuttons">
     {% for fold_name, fold_data in fold.items %}
-        <input type="button" value="{{ fold_name }}">
+        <input class="foldbutton" type="button" value="{{ fold_name }}">
     {% endfor %}
+</div>
+<div id="foldinfo">
+
 </div>
 {#<div id = "foldinfo">#}
 {#    {% for fold_name, fold_data in fold.items %}#}
