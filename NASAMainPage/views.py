@@ -16,7 +16,18 @@ def home(request):
     return render(request, 'home.html')
 
 # NASAMainPage/views.py
+''' This view is for the user to be able to test the model that they chose.
+    They will be able to choose images from the dataset that the model was ran on
+    then see the results. 
+'''
+def test_model(request, model_name):
+    model = get_object_or_404(AIModel, model_name=model_name)
+    return render(request, 'models/test_model.html', {'model_name': model_name})
 
+'''
+    This view contains the different models that the user has inputed into the DB
+'''
+# TODO have a thing that says "offline" if no file is found
 def models(request):
     models = AIModel.objects.all()
     list_models = [model for model in models]

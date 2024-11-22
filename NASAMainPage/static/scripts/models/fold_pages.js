@@ -30,6 +30,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Create and append accuracy
         const accuracy = document.createElement("h3");
 
+        // Create and append Image
+        const imageCM = document.createElement("img");
+        imageCM.id = "cm"
+        imageCM.alt = "Confusion Matrix"
+
         // Create table elements
         const foldTable = document.createElement("table");
         const headerTable = document.createElement("thead");
@@ -62,6 +67,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 accuracy.innerHTML = "Accuracy: " + fold_data.Accuracy;
                 folddiv.appendChild(accuracy);
 
+                imageCM.src = "/static" + fold_data.ConfusionMatrix
+                folddiv.append(imageCM)
+
                 for (const [class_name, metrics] of Object.entries(fold_data.Classes)) {
                     const bodyRow = document.createElement("tr");
 
@@ -87,5 +95,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         foldTable.appendChild(bodyTable);
         folddiv.appendChild(foldTable);
+    }
+
+    if (foldbuttons.length > 0) {
+        displayFold(foldbuttons[0].value);
     }
 });
