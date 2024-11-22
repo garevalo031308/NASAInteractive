@@ -26,8 +26,11 @@
     <a href="{% url 'about-us' %}" class="{% if request.resolver_match.url_name == 'about-us' %}active{% endif %}">About Us</a>
     <a>Past Work</a>
     <a>Past Members</a>
+    <a>Definitions</a>
+    <a>Information</a>
+    <a href="http://localhost:8000/admin/">Admin</a>
 </div>
-<h2 id="datasettitle">Available Datasets</h2>
+<h1 id="datasettitle">Available Datasets</h1>
 
 <div id="dataset-list">
     {% for dataset, data in datasets_with_classes.items %}

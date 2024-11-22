@@ -1,0 +1,21 @@
+body {
+    display: grid;
+    overflow-x: hidden;
+}
+
+#modeltitle{
+    text-align: center;
+    margin-top: 330px;
+    position: relative;
+}
+
+#cm {
+    max-height: 500px;
+    max-width: 500px;
+}
+
+#table, th, td {
+    border: 1px solid black;
+}
+
+table { width: 50%; }

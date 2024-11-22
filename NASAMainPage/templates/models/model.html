@@ -1,0 +1,74 @@
+<!-- NASAMainPage/templates/models/model.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ model.model_name }}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/model.css' %}">
+</head>
+<body>
+<div id="top-nav-bar">
+    <div id="pagetop">
+        <img id="NASALogo" src="{% static 'images/nasa_logo.png' %}" alt="NASA Logo">
+        <img id="EasternLogo" src="{% static 'images/eastern_logo.png' %}" alt="Eastern Logo">
+        <h1 id="CNN">Evaluating Convolutional Neural Networks for Image Classification: A Study Using NASA Mars Data</h1>
+    </div>
+</div>
+<div id="subtopnav">
+    <a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a>
+    <a href="{% url 'models' %}" class="{% if request.resolver_match.url_name == 'models' %}active{% endif %}">Models</a>
+    <a href="{% url 'datasets' %}" class="{% if request.resolver_match.url_name == 'datasets' %}active{% endif %}">Datasets</a>
+    <a href="{% url 'game' %}" class="{% if request.resolver_match.url_name == 'game' %}active{% endif %}">Game</a>
+    <a href="{% url 'about-us' %}" class="{% if request.resolver_match.url_name == 'about-us' %}active{% endif %}">About Us</a>
+    <a>Past Work</a>
+    <a>Past Members</a>
+    <a>Definitions</a>
+    <a>Information</a>
+    <a href="http://localhost:8000/admin/">Admin</a>
+</div>
+<h1 id="modeltitle">{{ model.model_name }}</h1>
+<h2 id="datasettitle">{{ model.model_dataset }}</h2>
+<h3 id="modeldesc">{{ model.model_description }}</h3>
+{#<img id="aimodelimage" src="{% static model.model_image %}" alt="aimodelimage">#}
+<div>
+    {% for section in sections.values %}
+        <h1>{{ section.section_name }}</h1>
+        <h3>{{ section.section_info }}</h3>
+    {% endfor %}
+</div>
+{#<div>#}
+{#    {% for fold_name, fold_data in fold.items %}#}
+{#        <h2>{{ fold_name }} Performance</h2>#}
+{#        <p>Confusion Matrix: </p>#}
+{#        <img id="cm" src="{% static fold_data.ConfusionMatrix %}" alt="Confusion Matrix">#}
+{#        <h3>Class Performance</h3>#}
+{#        <p>Accuracy: {{ fold_data.Accuracy }}%</p>#}
+{#        <table>#}
+{#            <thead>#}
+{#            <tr>#}
+{#                <th>Class</th>#}
+{#                <th>Precision</th>#}
+{#                <th>Recall</th>#}
+{#                <th>F1 Score</th>#}
+{#                <th>Support</th>#}
+{#            </tr>#}
+{#            </thead>#}
+{#            <tbody>#}
+{#            {% for class_name, metrics in fold_data.Classes.items %}#}
+{#                <tr>#}
+{#                    <td>{{ class_name }}</td>#}
+{#                    <td>{{ metrics.Precision }}</td>#}
+{#                    <td>{{ metrics.Recall }}</td>#}
+{#                    <td>{{ metrics.F1Score }}</td>#}
+{#                    <td>{{ metrics.Support }}</td>#}
+{#                </tr>#}
+{#            {% endfor %}#}
+{#            </tbody>#}
+{#        </table>#}
+{#    {% endfor %}#}
+{#</div>#}
+</body>
+</html>

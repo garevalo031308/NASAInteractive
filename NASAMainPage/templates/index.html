@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
@@ -7,7 +8,7 @@
     <!-- Load TensorFlow.js from a script tag -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <!-- Include the external JavaScript file -->
-    <script src="/NASAMainPage/templates/LoadModel.js"></script>
+    <script src="{% static 'scripts/LoadModel.js' %}"></script>
   </head>
   <body>
     <h1>TensorFlow.js example</h1>

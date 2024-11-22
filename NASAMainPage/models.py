@@ -1,4 +1,5 @@
 import shutil
+from tkinter.constants import CASCADE
 
 from django.contrib import admin
 from django.core.exceptions import ValidationError
@@ -105,6 +106,8 @@ class AIModel(models.Model):
     model_image = models.ImageField(upload_to="NASAMainPage/static/images/models")
     model_dataset = models.ForeignKey(Dataset, on_delete=models.CASCADE)
     model_description = models.TextField()
+    model_batch_size = models.IntegerField()
+    model_epoch = models.IntegerField()
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -126,21 +129,36 @@ class AIModel(models.Model):
         self.model_path = os.path.join(dest_model_path, "model.json")
         super().save(update_fields=["model_path"])
 
-
     def __str__(self):
         return self.model_name
 
+class UserSections(models.Model):
+    model = models.ForeignKey(AIModel, on_delete=models.CASCADE)
+    section_name = models.CharField(max_length=200)
+    section_info = models.TextField()
+    section_image = models.ImageField(blank=True)
+
+    def __str__(self):
+        return self.section_name
+
 class Fold(models.Model):
-    fold_number = models.IntegerField()
-    dataset_class = models.ForeignKey(DatasetClasses, on_delete=models.CASCADE)
+    fold_name = models.CharField(max_length=200) # this will be combination of AI model & dataset
     dataset = models.ForeignKey(Dataset, on_delete=models.CASCADE)
-    confusion_matrix = models.ImageField()
-    precision = models.IntegerField()
-    recall = models.IntegerField()
-    f1score = models.IntegerField()
-    support = models.IntegerField()
-    accuracy = models.IntegerField()
     AI_model = models.ForeignKey(AIModel, on_delete=models.CASCADE)
+
+class FoldInfo(models.Model):
+    fold = models.ForeignKey(Fold, on_delete=models.CASCADE)  # Add this line
+    fold_number = models.IntegerField() # 0 for overall
+    confusion_matrix = models.ImageField(upload_to="NASAMainPage/static/images/models")
+    accuracy = models.FloatField()
+
+class FoldClassInfo(models.Model):
+    foldinfo = models.ForeignKey(FoldInfo, on_delete=models.CASCADE)
+    dataset_class_id = models.ForeignKey(DatasetClasses, on_delete=models.CASCADE)
+    precision = models.FloatField()
+    recall = models.FloatField()
+    f1score = models.FloatField()
+    support = models.FloatField()
 
 
 @receiver(post_save, sender=Dataset)

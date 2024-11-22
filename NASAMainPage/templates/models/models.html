@@ -25,17 +25,24 @@
     <a href="{% url 'about-us' %}" class="{% if request.resolver_match.url_name == 'about-us' %}active{% endif %}">About Us</a>
     <a>Past Work</a>
     <a>Past Members</a>
+    <a>Definitions</a>
+    <a>Information</a>
+    <a href="http://localhost:8000/admin/">Admin</a>
 </div>
 <h1 id="modeltitle">Available Models</h1>
 
 <div id="models-list">
-    <img id="aimodelimage" src="{% static 'images/models/new41_FQDWjhc.jpg' %}" alt="yes">
     {% for model in models %}
-        <h1>{{ model.model_name }}</h1>
-        <h2>{{ model.model_dataset }}</h2>
-        <h2>{{ model.model_image }}</h2>
-        <img id="aimodelimage" src="{% static model.model_image %}" alt="yes">
-        <p>{{ model.model_description }}</p>
+        <div class="model-item">
+            <a href="{% url 'model_detail' model.model_name %}">
+                <h1 id="modelname">{{ model.model_name }}</h1>
+            </a>
+            <a href="{% url 'dataset_detail' model.model_dataset %}">
+                <h2 id="modeldataset">{{ model.model_dataset }}</h2>
+            </a>
+            <img id="aimodelimage" src="{% static model.model_image %}" alt="yes">
+            <p id="modeldesc">{{ model.model_description }}</p>
+        </div>
     {% endfor %}
 </div>
 </body>

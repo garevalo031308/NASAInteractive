@@ -6,12 +6,11 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 import subprocess, random
 
-from .models import Dataset,DatasetClasses, Picture, AIModel
+from .models import Dataset, DatasetClasses, Picture, AIModel, Fold, FoldInfo, FoldClassInfo, UserSections
 
-def current_datetime(request):
-    now = datetime.datetime.now()
-    html = '<html lang="en"<body>It is now %s.</body></html>' % now
-    return HttpResponse(html)
+
+def index(request):
+    return render(request, "index.html")
 
 def home(request):
     return render(request, 'home.html')
@@ -48,6 +47,32 @@ def datasets(request):
         }
     return render(request, 'datasets/datasets.html', {'datasets_with_classes': datasets_with_classes})
 
+def model_detail(request, model_name):
+    model = get_object_or_404(AIModel, model_name=model_name)
+    model_dataset = model.model_dataset
+
+    user_sections = UserSections.objects.filter(model=model).all()
+
+    fold = Fold.objects.filter(dataset=model_dataset.id, AI_model=model).select_related('dataset', 'AI_model').get()
+    foldinfo = FoldInfo.objects.filter(fold=fold.id).prefetch_related('foldclassinfo_set__dataset_class_id').all()
+
+    fold_info_dict = {}
+    for info in foldinfo:
+        foldclassinfo = info.foldclassinfo_set.all()
+        fold_number = "Overall" if info.fold_number == 0 else f"Fold {info.fold_number}"
+        fold_info_dict[fold_number] = {
+            "ConfusionMatrix": os.path.join('/images/models', os.path.basename(info.confusion_matrix.path)),
+            "Accuracy": info.accuracy,
+            "Classes": {}
+        }
+        for classinfo in foldclassinfo:
+            fold_info_dict[fold_number]["Classes"][classinfo.dataset_class_id.dataset_class_name] = {
+                "Precision": classinfo.precision,
+                "Recall": classinfo.recall,
+                "F1Score": classinfo.f1score,
+                "Support": classinfo.support,
+            }
+    return render(request, 'models/model.html', {"model": model, "fold": fold_info_dict, "sections" : user_sections})
 
 def dataset_detail(request, dataset_name):
     dataset = get_object_or_404(Dataset, dataset_name=dataset_name)
@@ -67,12 +92,6 @@ def dataset_detail(request, dataset_name):
         number_of_images = cls.class_number_of_images
         percentage = f"{number_of_images / total_number_of_images:.1%}"
         cls_info[class_name] = {number_of_images : percentage}
-    #
-    # print(images)
-    #
-    # for i in images:
-    #     print(i)
-
     return render(request, 'datasets/dataset.html', {
         'dataset': dataset,
         'cls_info': cls_info,
