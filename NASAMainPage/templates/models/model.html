@@ -30,16 +30,28 @@
     <a href="http://localhost:8000/admin/">Admin</a>
 </div>
 <h1 id="modeltitle">{{ model.model_name }}</h1>
-<h2 id="datasettitle">{{ model.model_dataset }}</h2>
-<h3 id="modeldesc">{{ model.model_description }}</h3>
+<div id="information">
+    <h2>Epochs: {{ model.model_epoch }}</h2>
+    <h2>Batch Size: {{ model.model_batch_size }}</h2>
+    <h2 id="datasettitle">Dataset: {{ model.model_dataset }}</h2>
+</div>
+<div id="description">
+    <h1>Description of {{ model.model_name }}</h1>
+    <h3 id="modeldesc">{{ model.model_description }}</h3>
+</div>
 {#<img id="aimodelimage" src="{% static model.model_image %}" alt="aimodelimage">#}
-<div>
+<div id="sections">
     {% for section in sections.values %}
-        <h1>{{ section.section_name }}</h1>
+        <h1 id="sectionname">{{ section.section_name }}</h1>
         <h3>{{ section.section_info }}</h3>
     {% endfor %}
 </div>
-{#<div>#}
+<div id="foldbuttons">
+    {% for fold_name, fold_data in fold.items %}
+        <input type="button" value="{{ fold_name }}">
+    {% endfor %}
+</div>
+{#<div id = "foldinfo">#}
 {#    {% for fold_name, fold_data in fold.items %}#}
 {#        <h2>{{ fold_name }} Performance</h2>#}
 {#        <p>Confusion Matrix: </p>#}
