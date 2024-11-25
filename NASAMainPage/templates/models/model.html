@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ model.model_name }}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/model.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/models/model.css' %}">
     <script>
         const fold = {{ fold|safe }};
     </script>
@@ -18,7 +18,7 @@
     <div id="pagetop">
         <img id="NASALogo" src="{% static 'images/nasa_logo.png' %}" alt="NASA Logo">
         <img id="EasternLogo" src="{% static 'images/eastern_logo.png' %}" alt="Eastern Logo">
-        <h1 id="CNN">Evaluating Convolutional Neural Networks for Image Classification: A Study Using NASA Mars Data</h1>
+        <h1 id="CNN">Advancing Mars Image Classification: A Comparative Study of CNN Models with Interactive Applications</h1>
     </div>
 </div>
 <div id="subtopnav">
@@ -36,6 +36,12 @@
 </div>
 <h1 id="modeltitle">{{ model.model_name }}</h1>
 <div id="information">
+    {% if active %}
+        <h1 style="color:green">Active</h1>
+        <a href="{% url 'test_model' model.model_name %}">Test Model</a>
+    {% else %}
+        <h1 style="color:red">Inactive</h1>
+    {% endif %}
     <h2>Epochs: {{ model.model_epoch }}</h2>
     <h2>Batch Size: {{ model.model_batch_size }}</h2>
     <h2 id="datasettitle">Dataset: {{ model.model_dataset }}</h2>

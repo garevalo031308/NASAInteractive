@@ -7,13 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Page</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/game.css' %}">
 </head>
 <body>
 <div id="top-nav-bar">
     <div id="pagetop">
         <img id="NASALogo" src="{% static 'images/nasa_logo.png' %}" alt="NASA Logo">
         <img id="EasternLogo" src="{% static 'images/eastern_logo.png' %}" alt="Eastern Logo">
-        <h1 id="CNN">Evaluating Convolutional Neural Networks for Image Classification: A Study Using NASA Mars Data</h1>
+        <h1 id="CNN">Advancing Mars Image Classification: A Comparative Study of CNN Models with Interactive Applications</h1>
     </div>
 </div>
 <div id="subtopnav">
@@ -27,6 +28,22 @@
     <a>Definitions</a>
     <a>Information</a>
     <a href="http://localhost:8000/admin/">Admin</a>
+</div>
+<h1 id="title">Are you smarter than an AI?</h1>
+<h2 id="title2">Pick your model to test against!</h2>
+<div id="models-list">
+    {% for model in models %}
+        <div class="model-item">
+            <a href="{% url 'model_detail' model.model_name %}">
+                <h1 id="modelname">{{ model.model_name }}</h1>
+            </a>
+            <a href="{% url 'dataset_detail' model.model_dataset %}">
+                <h2 id="modeldataset">{{ model.model_dataset }}</h2>
+            </a>
+            <img id="aimodelimage" src="{% static model.model_image %}" alt="yes">
+            <p id="modeldesc">{{ model.model_description }}</p>
+        </div>
+    {% endfor %}
 </div>
 </body>
 </html>

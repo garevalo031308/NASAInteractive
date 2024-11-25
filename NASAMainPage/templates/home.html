@@ -13,7 +13,7 @@
     <div id="pagetop">
         <img id="NASALogo" src="{% static 'images/nasa_logo.png' %}" alt="NASA Logo">
         <img id="EasternLogo" src="{% static 'images/eastern_logo.png' %}" alt="Eastern Logo">
-        <h1 id="CNN">Evaluating Convolutional Neural Networks for Image Classification: A Study Using NASA Mars Data</h1>
+        <h1 id="CNN">Advancing Mars Image Classification: A Comparative Study of CNN Models with Interactive Applications</h1>
     </div>
 </div>
 <div id="subtopnav">
@@ -31,14 +31,24 @@
 <div id="abstract">
     <article>
         <h2 id = "abstracth">Abstract</h2>
-        <p id="abstractp">Deep learning, especially through Convolutional Neural Networks (CNNs), has become an essential tool in computer vision,
-            enabling significant advancements in tasks such as image recognition and classification. This study aims to evaluate the performance of
-            three well-known CNN architectures – VGGNet, InceptionNet, and DenseNet – using a NASA Mars image dataset.
-            The research focuses on how effectively each architecture classifies Mars images, applying a range of performance metrics,
-            including accuracy, precision, recall, and F1 score, to gauge their effectiveness. Additionally, statistical methods were employed to compare the results across the models,
-            determining whether any architecture significantly outperforms the others in a meaningful way. Conducted as part of the 2024 summer research project,
-            this work involved three CSC students, with partial support from NASA Research Grants. The project was led by Drs. Gao and Tasneem as Principal Investigators.
-            This presentation summarizes the findings and offers valuable insights for future deep learning applications in planetary image analysis and exploration.</p>
+        <p id="abstractp">This study leverages AI to investigate Convolutional Neural Networks (CNNs) for classifying Martian geological images, focusing on a comparative analysis of EfficientNet and VGGNet architectures.
+            These models were tested on two specific NASA datasets. The HiRISE orbital dataset comprises 3820 grayscale images of Mars captured from orbit, categorized into six landmark types. The Mars Science Laboratory (MSL) surface dataset
+            contains over 6,000 images of Martian landscapes classified into 24 categories. By comparing accuracy, efficiency, and computational requirements, this research aims to determine the optimal CNN model for Martian image classification.
+            <br>
+            <br>
+            To make these findings accessible, we developed a web application using the Python-based Django framework. The application enables users to interact with the AI models and datasets,
+            fostering a deeper understanding of AI’s role in image classification. Users can test the EfficientNet and VGGNet models,  explore classification results, and examine evaluation metrics.
+            The application also includes the HiRISE and MSL datasets, allowing users to analyze the data that shaped the models' training and testing processes.
+            <br>
+            <br>
+            A unique feature of the application is an interactive game, "Are You Smarter than an AI?", where users can challenge the models by attempting to classify Martian images and compare their accuracy against that of the CNN/AI models.
+            This engaging feature helps users understand AI's capabilities and limitations.
+            <br>
+            <br>
+            This project bridges advanced AI research and public engagement, highlighting the importance of deep learning in planetary science. The integration of Django ensures a seamless user experience, transforming complex research into an
+            accessible educational tool. Beyond Martian image classification, this study lays a foundation for using CNNs in broader scientific image analysis tasks.
+            Through its interactive and educational approach, the project promotes understanding and application of AI technologies, preparing users for the expanding role of machine learning in science and beyond.
+        </p>
     </article>
 </div>
 </body>

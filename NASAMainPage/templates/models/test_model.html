@@ -7,13 +7,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test Model {{ model_name }}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/models/test_models.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/datasets/dataset.css' %}">
+    <script src="{% static 'scripts/models/model_pagination.js' %}"></script>
+    <script src="{% static 'scripts/models/load_cnn_model.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script>
+        const cls_info = {{ cls_info|safe }};
+        const dataset = "{{ dataset }}";
+        const total_images = {{ total_images }};
+        const images = {{ images|safe }};
+        const model_name = "{{ model_name }}"
+    </script>
 </head>
 <body>
 <div id="top-nav-bar">
     <div id="pagetop">
         <img id="NASALogo" src="{% static 'images/nasa_logo.png' %}" alt="NASA Logo">
         <img id="EasternLogo" src="{% static 'images/eastern_logo.png' %}" alt="Eastern Logo">
-        <h1 id="CNN">Evaluating Convolutional Neural Networks for Image Classification: A Study Using NASA Mars Data</h1>
+        <h1 id="CNN">Advancing Mars Image Classification: A Comparative Study of CNN Models with Interactive Applications</h1>
     </div>
 </div>
 <div id="subtopnav">
@@ -27,6 +39,36 @@
     <a>Definitions</a>
     <a>Information</a>
     <a href="http://localhost:8000/admin/">Admin</a>
+</div>
+<div id="filetesting">
+    <h1>Test the {{ model_name }} Model!</h1>
+    <p>Click on the checkmarks to select what images the model should predict. Click submit for the model to predict, and click clear to clear your selected choices</p>
+    <div id="status"></div>
+    <p>{{ model_path }}</p>
+    <div id="prediction-result"></div>
+</div>
+<input type="button" id="submitbutton" value="Submit" disabled>
+<input type="button" id="clearbutton" value="Clear">
+<div id="dataset-collection">
+    <form>
+            <h3 id="filterlabel">Filter by Class</h3>
+            {% for cls, image in images.items %}
+                <input class="class_labels" type="radio" id="{{ cls }}" name="class" value="{{ cls }}">
+                <label id="class_label" for="{{ cls }}">{{ cls }}</label><br>
+            {% endfor %}
+            <input type="button" id="filterbutton" value="Filter">
+            <input type="button" id="resetbutton" value="Reset">
+    </form>
+    <div id="dataset-images">
+    </div>
+    <div class="pagination" id="pagination">
+        <a href="#" id="prev">Previous</a>
+        <label>
+            <input type="number" id="class-filter" placeholder="Search by page number">
+        </label>
+        <a href="#" id="next">Next</a>
+        <p id="page-numbers"></p>
+    </div>
 </div>
 </body>
 </html>

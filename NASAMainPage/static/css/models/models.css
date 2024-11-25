@@ -1,0 +1,61 @@
+body {
+    background-color: #EFD6AC;
+    overflow-y: auto; /* Enable vertical scrolling for the entire page */
+    display: block; /* Ensure body content is not centered */
+    align-items: flex-start; /* Align items to the start */
+}
+
+#modeltitle {
+    text-align: center;
+    margin-top: 330px;
+    position: relative;
+}
+
+
+#modeldataset {
+    text-align: center;
+    margin-left: 0;
+}
+
+#modelname{
+    text-align: center;
+    margin-left: 0;
+}
+
+
+#models-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Create three equal columns */
+    gap: 20px; /* Add space between the grid items */
+    position: relative;
+    margin-top: 25px; /* Adjust this value to create space below the title */
+    left: 0; /* Ensure it is aligned to the left */
+    text-align: left; /* Align the content to the left */
+    padding: 4px 20px; /* Add padding to the sides */
+    z-index: 0; /* Ensure it appears above other elements */
+    overflow-y: visible; /* Allow the content to be visible */
+    margin-left: 0; /* Ensure it is aligned to the left */
+}
+
+.model-item {
+    padding: 20px; /* Add padding inside each dataset item */
+    font-size: 20px;
+    background-color: #BFA17B;
+    margin-bottom: 20px; /* Add a gap between items */
+}
+
+
+#aimodelimage{
+    display: grid;
+    align-items: center;
+    margin: 15px auto;
+    max-height: 150px;
+    max-width: 450px;
+}
+
+#modeldesc {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 450px;
+}

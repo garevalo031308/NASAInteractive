@@ -102,7 +102,7 @@ class Picture(models.Model):
 
 class AIModel(models.Model):
     model_name = models.CharField(max_length=200)
-    model_path = models.FileField(upload_to="NASAMainPage/static/temp", validators=[validate_zip_file], blank=False, null=False)
+    model_path = models.FileField(upload_to="NASAMainPage/static/temp", validators=[validate_zip_file], blank=True, null=True)
     model_image = models.ImageField(upload_to="NASAMainPage/static/images/models")
     model_dataset = models.ForeignKey(Dataset, on_delete=models.CASCADE)
     model_description = models.TextField()

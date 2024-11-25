@@ -7,21 +7,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ dataset }}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/dataset.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/datasets/dataset.css' %}">
     <script>
         const cls_info = {{ cls_info|safe }};
         const dataset = "{{ dataset }}";
         const total_images = {{ total_images }};
         const images = {{ images|safe }};
     </script>
-{#    <script src="{% static 'scripts/datasets/pagination.js' %}"></script>#}
+    <script src="{% static 'scripts/datasets/pagination.js' %}"></script>
 </head>
 <body>
 <div id="top-nav-bar">
     <div id="pagetop">
         <img id="NASALogo" src="{% static 'images/nasa_logo.png' %}" alt="NASA Logo">
         <img id="EasternLogo" src="{% static 'images/eastern_logo.png' %}" alt="Eastern Logo">
-        <h1 id="CNN">Evaluating Convolutional Neural Networks for Image Classification: A Study Using NASA Mars Data</h1>
+        <h1 id="CNN">Advancing Mars Image Classification: A Comparative Study of CNN Models with Interactive Applications</h1>
     </div>
 </div>
 <div id="subtopnav">
@@ -61,22 +61,26 @@
         </table>
     </div>
 </div>
-<form>
-    <h3 id="filterlabel">Filter by Class</h3>
-    {% for cls, image in images.items %}
-        <input class="class_labels" type="radio" id="{{ cls }}" name="class" value="{{ cls }}">
-        <label id="class_label" for="{{ cls }}">{{ cls }}</label><br>
-    {% endfor %}
-    <input type="button" id="filterbutton" value="Filter">
-</form>
-<div>
-    <label for="class-filter"></label><input type="text" id="class-filter" placeholder="Search by class">
-</div>
-<div id="dataset-images"></div>
-<div class="pagination" id="pagination">
-    <a href="#" id="prev">Previous</a>
-    <a href="#" id="next">Next</a>
-    <p id="page-numbers"></p>
+<div id="dataset-collection">
+    <form>
+            <h3 id="filterlabel">Filter by Class</h3>
+            {% for cls, image in images.items %}
+                <input class="class_labels" type="radio" id="{{ cls }}" name="class" value="{{ cls }}">
+                <label id="class_label" for="{{ cls }}">{{ cls }}</label><br>
+            {% endfor %}
+            <input type="button" id="filterbutton" value="Filter">
+            <input type="button" id="resetbutton" value="Reset">
+    </form>
+    <div id="dataset-images">
+    </div>
+    <div class="pagination" id="pagination">
+        <a href="#" id="prev">Previous</a>
+        <label>
+            <input type="number" id="class-filter" placeholder="Search by page number">
+        </label>
+        <a href="#" id="next">Next</a>
+        <p id="page-numbers"></p>
+    </div>
 </div>
 </body>
 </html>

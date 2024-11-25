@@ -1,0 +1,112 @@
+body {
+    display: grid;
+}
+
+#datasettitle {
+    text-align: center;
+    margin-top: 330px;
+    position: relative;
+}
+
+#datasetinfo {
+    position: relative;
+    margin-top: 25px;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    gap: 20px; /* Space between columns */
+}
+
+#datasetdescription {
+    height: 500px; /* Set the desired height */
+    overflow: auto; /* Add scrollbars if content exceeds the height */
+}
+
+#dataset-collection{
+    position:relative;
+    display: grid;
+    grid-template-columns: 1fr 10fr;
+    background-color: #BFA17B;
+}
+
+#dataset-images {
+    background-color: #ffeeca;
+    max-height: 800px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 3fr)); /* Adjust the minmax value as needed */
+    /*gap: 20px; !* Space between grid items *!*/
+    padding: 50px;
+    overflow-y: scroll;
+    /*margin-left: 500px;*/
+    border: #BFA17B 10px solid;
+}
+
+#dataset-image-div{
+    border: black 1px solid;
+    width: 227px;
+    margin-bottom: 10px;
+}
+
+form {
+    display: block;
+    border: #b69f77 5px solid;
+    width: fit-content;
+    background-color: #ffeeca;
+    padding-left: 25px;
+    padding-right: 25px;
+    align-items: center;
+}
+
+#dataset-image-class, #dataset-image-name{
+    margin-left: 5px;
+}
+
+#dataset-image{
+    max-width: 250px;
+    max-height: 250px;
+}
+
+.pagination a{
+    position: relative;
+    color: black;
+    /*float: left;*/
+    margin-top: 50px;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+}
+
+.pagination a.active{
+    background-color: dodgerblue;
+    color: white;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd}
+
+
+table, th, td {
+    border: 1px solid black
+}
+
+table {
+    width: 100%;
+}
+
+.class_labels{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    /*margin-left: 10px;*/
+}
+
+#filterbutton {
+    display: block;
+    margin: 15px auto; /* Center horizontally */
+    align-items: center;
+}
+
+#class_label {
+    margin-top: 25px;
+}
+
+#filterlabel {
+    text-align: center;
+}
