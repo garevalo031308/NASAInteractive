@@ -145,8 +145,19 @@ def dataset_detail(request, dataset_name):
 
 def game(request):
     models = AIModel.objects.all()
-    list_models = [model for model in models]
-    return render(request, "game.html", {"models" : list_models})
+    # list_models = [model for model in models]
+    list_models = []
+    for model in models:
+        file_path = Path(settings.BASE_DIR) / 'NASAMainPage' / 'static' / 'models' / model.model_name / 'model.json'
+        if file_path.exists():
+            list_models.append(model)
+        else:
+            continue
+
+    return render(request, "game/main_game_screen.html", {"models" : list_models})
+
+def leaderboard(request):
+    return render(request, "game/leaderboard.html")
 
 def about_us(request):
     return render(request, "about_us.html")

@@ -40,7 +40,7 @@ body {
     display: inline-block;
     cursor: pointer;
     color: #ffffff;
-    font-size: 17px;
+    font-size: 12px;
     width: 115px; /* Set a fixed width */
     height: 115px; /* Set a fixed height to make it a square */
     text-decoration: none;

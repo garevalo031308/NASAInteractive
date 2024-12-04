@@ -1,0 +1,39 @@
+<!-- NASAMainPage/templates/home.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ model_name }} Game</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/game/begin_game.css' %}">
+</head>
+<body>
+<div id="top-nav-bar">
+    <div id="pagetop">
+        <img id="NASALogo" src="{% static 'images/nasa_logo.png' %}" alt="NASA Logo">
+        <img id="EasternLogo" src="{% static 'images/eastern_logo.png' %}" alt="Eastern Logo">
+        <h1 id="CNN">Advancing Mars Image Classification: A Comparative Study of CNN Models with Interactive Applications</h1>
+    </div>
+</div>
+<div id="subtopnav">
+    <a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a>
+    <a href="{% url 'models' %}" class="{% if request.resolver_match.url_name == 'models' %}active{% endif %}">Models</a>
+    <a href="{% url 'datasets' %}" class="{% if request.resolver_match.url_name == 'datasets' %}active{% endif %}">Datasets</a>
+    <a href="{% url 'game' %}" class="{% if request.resolver_match.url_name == 'game' %}active{% endif %}">Game</a>
+    <a href="{% url 'about-us' %}" class="{% if request.resolver_match.url_name == 'about-us' %}active{% endif %}">About Us</a>
+    <a>Past Work</a>
+    <a>Past Members</a>
+    <a>Definitions</a>
+    <a>Information</a>
+    <a href="http://localhost:8000/admin/">Admin</a>
+</div>
+<div id="mainitems">
+    <h1>Classifier Clash</h1>
+    <a id="begingame" href="">Begin Game</a>
+    <a id="leaderboard" href="{% url 'leaderboard' %}">Leaderboard</a>
+    <a id="gameinfo">How To Play</a>
+</div>
+</body>
+</html>
