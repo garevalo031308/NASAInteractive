@@ -132,10 +132,11 @@ def main_game_screen(request):
 
 
 def game_selection(request):
+    # TODO active_models no longer works properly since we need to loop over all the datasets first before getting active_model
     models = AIModel.objects.all()
     datasets = Dataset.objects.all()
 
-    active_models = [model for model in models if (Path(settings.BASE_DIR) / 'NASAMainPage' / 'static' / 'models' / model.model_name / 'model.json').exists()]
+    active_models = [model for model in models if (Path(settings.BASE_DIR) / 'NASAMainPage' / 'static' / 'models' / f'{model.model_name}-HiRiSE' / 'model.json').exists()]
     active_datasets = [model.model_dataset for model in active_models if model.model_dataset in datasets]
 
     dataset_to_models = {}
@@ -161,7 +162,12 @@ def game_selection(request):
         for dataset in active_datasets
     }
 
+    print(datasets_with_classes)
+
     return render(request, "game/game_selection.html", {"active": active_models, "datasets": datasets_with_classes, "dataset_to_models": dataset_to_models})
+
+import base64
+from io import BytesIO
 
 def model_prepping(request):
     mode = request.GET.get('mode')
@@ -182,31 +188,26 @@ def model_prepping(request):
     random.shuffle(all_images)
     random_image_list = random.choices(all_images, k=5)
     round_images = []
-    if difficulty == "Easy":
-        for data in random_image_list:
-            for cls in data:
-                image_path = data[cls]
-                img = Image.open(f"NASAMainPage/static/{image_path}")
 
-                # Rotate the image
+    for data in random_image_list:
+        for cls in data:
+            image_path = data[cls]
+            img = Image.open(f"NASAMainPage/static/{image_path}")
+
+            if difficulty == "Medium":
                 img = img.rotate(random.randrange(0, 360))
+            elif difficulty == "Hard":
+                img = img.rotate(random.randrange(0, 360))
+                img = img.resize((img.width // 2, img.height // 2))
+            elif difficulty == 'Mixed':
+                img = img.rotate(random.randrange(0, 360))
+                img = img.resize((img.width // 2, img.height // 2))
+                # img = img.transpose(Image.FLIP_LEFT_RIGHT)
 
-                # Extract the base name of the image file
-                image_name = os.path.basename(image_path)
-
-                # Save the rotated image to the temp folder
-                img.save(f"NASAMainPage/static/round_temp/{image_name}")
-
-                round_images.append({cls: f"round_temp/{image_name}"})
-    elif difficulty == "Medium":
-        for data in random_image_list:
-            for cls in data:
-                image_path = data[cls]
-                img = Image.open(f"NASAMainPage/static/{image_path}")
-                print(img.mode)
-
-    print(round_images)
-    print(mode, gamemode, dataset, difficulty, model, username)
+            buffered = BytesIO()
+            img.save(buffered, format="PNG")
+            img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
+            round_images.append({cls: f"data:image/png;base64,{img_str}"})
 
     context = {
         'mode': mode,
@@ -220,12 +221,20 @@ def model_prepping(request):
     return render(request, "game/model_prepping.html", context)
 
 def game(request):
+    # TODO get round_images classes, then get the class names and pass them to the template
     mode = request.GET.get('mode')
     gamemode = request.GET.get('gamemode')
     dataset = request.GET.get('dataset')
     difficulty = request.GET.get('difficulty')
     model = request.GET.get('model')
     username = request.GET.get('username')
+    round_images = request.GET.get('round_images')
+
+    chosen_dataset = get_object_or_404(Dataset, dataset_name=dataset)
+    dataset_classes = DatasetClasses.objects.filter(dataset=chosen_dataset.id)
+    all_classes = [cls for cls in dataset_classes]
+
+    print(dataset_classes)
 
     context = {
         'mode': mode,
@@ -233,7 +242,8 @@ def game(request):
         'dataset': dataset,
         'difficulty': difficulty,
         'model': model,
-        'username' : username
+        'username' : username,
+        'class_choices': all_classes
     }
 
     print(mode, gamemode, dataset, difficulty, model, username)

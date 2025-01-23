@@ -187,6 +187,10 @@ class Scoreboard(models.Model):
     score = models.FloatField()
     gameID = models.CharField(max_length=200)
 
+class Definition(models.Model):
+    term = models.CharField(max_length=200)
+    definition = models.CharField(max_length=200)
+
 
 @receiver(post_save, sender=Dataset)
 def create_dataset_directory(sender, instance, created, **kwargs):

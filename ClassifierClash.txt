@@ -1,0 +1,234 @@
+Classifier Clash:
+
+Setup:
+	- AI Selection: Player selects CNN models
+	- Dataset chosen at random (if model contains multiple datasets) or can choose datasets
+
+Game Rounds
+	- Display an image at start of round
+	- Display four multiple-choice options as answers
+	- Player selects answer while AI processes classification
+	- Must classify image within fixed time limit (faster response = more bonus points)
+
+Scoring
+	- Correct classification:
+		- Player: +10pts
+		- AI: +10pts
+	- Time Bonus
+		- Player/AI additional +2pts for every second saved
+	- Incorrect Choice
+		- No points
+
+Challenges:
+	- Distorted images
+		- Feature distorted images for increase difficulty
+	- Rapid rounds
+		- Multiple images flash on screen
+		- Classification needs to be made quickly
+
+
+Difficulty:
+	- Easy: No changes to the images
+	- Medium: Rotated images, etc.
+	- Hard: Distorted images
+
+Game Modes:
+	- Quick match:
+		- 10 rounds with increasing difficulty
+	- Endurance Mode:
+		- Unlimited Rounds until player misses 3 classifications
+	- Challenge Mode:
+		- Blitz Challenge
+			- Guess as many images as possible within 60 seconds
+		- Rapid Rounds
+
+Winning Conditions:
+	- Player Victory:
+		- Player scores higher than AI by end of game
+	- AI Victory
+		- AI outperforms player in accuracy and speed
+
+Advanced Features
+	- Statistics: Stats page
+		- Player Accuracy
+		- AI Accuracy
+		- Response Times
+
+Next Steps:
+	- load model
+	- Create AI functions
+		- Accepts image
+		- outputs class prediction and confidence score
+	- Allow choice of dataset based off what AI already knows
+	- Preprocess images with correct input size of AI models
+	- Random image selection
+	- Display image to player, and pass it to AI model for classification
+	- Timer to ensure both player and AI respond within set time
+	- Implement logic to compare player's input and AI's prediction
+	- Award points based on accuracy and speed
+
+UI:
+	- Allow player to select AI model and dataset
+	- Game screen
+		- Display image prominently (kind of like kahoot)
+		- Show multipel choice classificaiton options for player
+		- Include timer and score tracker
+	- Result Screen
+		- Display final scores, accuracy percentages, and round-by-round comparisons
+
+Game Flow:
+	- Game Loop
+		- For each round
+			- Display image
+			- Collect player input via UI
+			- Pass image to AI for classifcation
+			- Compare responses
+
+Features and Challeneges
+	- Difficulty levels
+	- Analytics (leaderboard)
+	- Image difficulty
+		- Database
+			- Get image correct to incorrect ratio
+			- More % correct, easy
+			- More % incorrect, hard
+
+Future:
+	- AI keeps learning as it plays as well
+	- Multiplayer
+
+Game Screens:
+	- Main Screen
+	- Leaderboard
+	- End Game
+	- Difficulty/Mode Selection
+	- Playing Game Screen
+	- Results Screen
+	- Model Selection
+	- Dataset Selection Screen
+
+Selection Screen:
+	- Enter player name
+	- AI vs AI, AI vs Player, Player
+		- AI Vs AI: Two models pit against each other
+		- AI vs Player: Model pit against a player
+		- Player: Player by themselves guessing images
+	- User is able to select different modes
+		- Quick Match, Endurance, Blitz Challenge, Rapid Rounds
+		- Show what each mode is
+	- Select Dataset
+		- Show number of classes
+		- Show number of images
+		- Based of number of classes, show difficulty
+		- Easy: 5, Medium: 8, Hard: 10+
+	- Select Model
+		- Only able to select models that can be active
+		- Show overall accuracy of model
+	- Able to select difficulty of images
+		- Easy
+		- Medium
+		- Hard
+		- Mixed/Random
+	- Start game button
+
+Leaderboard:
+	- Table of names
+	- Top overall score
+	- Sections based off gamemode
+	- Sections based off dataset
+	- Sections based off model
+
+Game Modes:
+	- Quick match:
+		- 10 rounds with increasing difficulty
+		Custom Options: Rounds amount, increased difficulty, or set difficulty
+	- Endurance Mode:
+		- Unlimited Rounds until player misses 3 classifications
+		Custom Options: Amount of lives, timer, etc.
+	- Challenge Mode:
+		- Blitz Challenge
+			- Guess as many images as possible within 60 seconds
+		- Rapid Rounds
+
+Game Section (Some will be different based off gamemode & Type):
+
+Player Section:
+
+	Overall (Something that will be the same throughout all screens)
+		- Points earned
+		- Timer
+		- Name of player
+		- Similar to Kahoot
+		- Image that is shown in the middle of the screen
+		- 4 Buttons that are the classes (randomly chosen with one correct answer)
+
+	Quick Match Screen:
+		- Rounds indicator (1/10, 2/10, etc)
+
+	Endurance Screen:
+		- Lives indicator (3 lives: x's, hearst, etc)
+
+	Blitz screen:
+		- Timer of 60 seconds
+		- Images keep showing as you keep going
+		- Does not align the same as the AI, both go at own pace
+
+	Rapid Rounds Screen:
+		- 10 second timer for each round
+
+	Inbetween Screen
+		- Screen that shows up after a round, before a round, or after selecting an image
+
+	Round Results Screen:
+		- Screen that shows results after each round
+		- Points scored
+		- Next round button
+
+AI vs AI
+
+	Overall:
+		- Points earned
+		- Timer
+		- Name of models
+		- Image that is shown in middle the screen
+
+	Quick Match Screen
+		- Rounds Indicator
+
+	Blitz Screen:
+		- Timer of 60 seconds
+
+	Rapid Rounds Screen:
+		- 10 second timer for each round
+
+	Inbetween Screen:
+		- Only needed in quick match
+
+AI vs Player:
+
+	Overall:
+		- Points earned
+		- Timer
+		- Name of Model and Player
+		- Image that is shown in middle of the screen
+
+	Quick Match Screen
+		- Rounds indicator
+
+	Blitz Screen
+		- Timer of 60 seconds
+
+	Rapid Rounds Screen:
+		- 10 second timer for each round
+
+	Inbetween Screens:
+		- Screen that shows up after a round, before a round, or after selecting an image
+
+	Round Results Screen:
+		- Shown after each round
+		- Points score
+		- Next round button
+
+Results Screen:
+	- Shows who won
+	- Score on who won

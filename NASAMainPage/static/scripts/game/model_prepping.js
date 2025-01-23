@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', async function() {
     const statusDiv = document.getElementById('status');
+    const countdownDiv = document.createElement("div");
+    const imageContainer = document.getElementById('image-container');
 
     async function loadModelFromDirectory(directoryPath) {
         try {
@@ -12,15 +14,52 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     }
 
+    function displayImages() {
+        round_images.forEach(imageData => {
+            for (const [cls, imgSrc] of Object.entries(imageData)) {
+                const imgElement = document.createElement('img');
+                imgElement.src = imgSrc;
+                imgElement.alt = cls;
+                imageContainer.appendChild(imgElement);
+            }
+        });
+    }
+
+    function startGameAfterDelay() {
+        let countdown = 5;
+        countdownDiv.innerText = `Starting game in ${countdown} seconds...`;
+        const interval = setInterval(() => {
+            countdown -= 1;
+            countdownDiv.innerText = `Starting game in ${countdown} seconds...`;
+            if (countdown === 0) {
+                clearInterval(interval);
+
+                const url = new URL('NASAMainPage/game/gameplay', window.location.origin);
+                url.searchParams.append('mode', mode);
+                url.searchParams.append('gamemode', gamemode);
+                url.searchParams.append('dataset', dataset);
+                url.searchParams.append('difficulty', difficulty);
+                url.searchParams.append('model', model);
+                url.searchParams.append('username', username);
+                url.searchParams.append('round_images', round_images)
+                window.location.href = url.toString();
+            }
+        }, 1000);
+    }
+
     if (!window.checkedState) {
         window.checkedState = new Map(); // Initialize if not already done
     }
 
-    const modelDirectory = '/static/models/' + model + "/model.json";  // Ensure model_path is correctly used
+    const modelDirectory = '/static/models/' + model + "-" + dataset + "/model.json";  // Ensure model_path is correctly used
 
     if (localStorage.getItem('modelLoaded') === 'true') {
         statusDiv.innerText = 'Model already loaded';
+        displayImages();
+        startGameAfterDelay();
     } else {
-        const model = await loadModelFromDirectory(modelDirectory);
+        await loadModelFromDirectory(modelDirectory);
+        displayImages();
+        startGameAfterDelay();
     }
 });
