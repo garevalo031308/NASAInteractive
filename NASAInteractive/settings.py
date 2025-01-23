@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-n25w7cd^es+v$30al5e_nxo16745t2om=xf363v!lx=0zxic7c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -125,7 +125,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
-
 
 USE_S3 = os.getenv("USE_S3") == 'TRUE'
 if USE_S3:
