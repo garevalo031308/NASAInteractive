@@ -7,9 +7,11 @@ urlpatterns = [
     path("models/<str:model_name>/test_model/", views.test_model, name="test_model"),
     path('datasets/', views.datasets, name='datasets'),
     path('datasets/<str:dataset_name>/', views.dataset_detail, name='dataset_detail'),
-    path("game/", views.game, name="game"),
+    path("game/", views.main_game_screen, name="game"),
+    path("game/game_selection/", views.game_selection, name="game_selection"),
+    path("game/loading", views.model_prepping, name="model_prepping"),
+    path("game/gameplay", views.game, name="gameplay"),
     path("game/leaderboard/", views.leaderboard, name="leaderboard"),
     path("about-us/", views.about_us, name="about-us"),
-    path("run-script/", views.run_script, name='run_script'),
     path("index/", views.index, name='index')
 ]

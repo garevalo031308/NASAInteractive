@@ -25,3 +25,6 @@ Database:
 - Datasets Table
     - General description
     - What AI model(s) it was trained upon
+
+- Folds
+- Copy and paste classification report

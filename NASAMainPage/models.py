@@ -103,7 +103,7 @@ class Picture(models.Model):
 class AIModel(models.Model):
     model_name = models.CharField(max_length=200)
     model_path = models.FileField(upload_to="NASAMainPage/static/temp", validators=[validate_zip_file], blank=True, null=True)
-    model_image = models.ImageField(upload_to="NASAMainPage/static/images/models")
+    model_image = models.ImageField(upload_to=f"NASAMainPage/static/images/models/{model_name}")
     model_dataset = models.ForeignKey(Dataset, on_delete=models.CASCADE)
     model_description = models.TextField()
     model_batch_size = models.IntegerField()
@@ -115,12 +115,22 @@ class AIModel(models.Model):
             zip_file_path = self.model_path.path
             with ZipFile(zip_file_path, 'r') as zip_ref:
                 zip_ref.extractall('NASAMainPage/static/temp/')
-            model_dir = os.path.join('NASAMainPage', 'static', 'temp', os.path.splitext(os.path.basename(zip_file_path))[0])
+            model_dir = os.path.join('NASAMainPage', 'static', 'temp',
+                                     os.path.splitext(os.path.basename(zip_file_path))[0])
             self.process_unzipped_files(model_dir)
-            clean_temp_folder()
+        # if self.model_image:
+        #     dest_image_path = os.path.join("NASAMainPage", 'static', 'images', 'models', self.model_name,
+        #                                    self.model_dataset.dataset_name)
+        #     os.makedirs(dest_image_path, exist_ok=True)
+        #     image_name = os.path.basename(self.model_image.path)
+        #     dest_image_full_path = os.path.join(dest_image_path, image_name)
+        #     shutil.move(self.model_image.path, dest_image_full_path)
+        #     self.model_image = dest_image_full_path
+        clean_temp_folder()
+
 
     def process_unzipped_files(self, model_dir):
-        dest_model_path = os.path.join("NASAMainPage", "static", "models", self.model_name)
+        dest_model_path = os.path.join("NASAMainPage", "static", "models", f"{self.model_name}-{self.model_dataset}")
         os.makedirs(dest_model_path, exist_ok=True)
         for item in os.listdir(model_dir):
             item_path = os.path.join(model_dir, item)
@@ -142,9 +152,16 @@ class UserSections(models.Model):
         return self.section_name
 
 class Fold(models.Model):
-    fold_name = models.CharField(max_length=200) # this will be combination of AI model & dataset
+    fold_name = models.CharField(max_length=200, editable=False)  # Make the field non-editable
     dataset = models.ForeignKey(Dataset, on_delete=models.CASCADE)
     AI_model = models.ForeignKey(AIModel, on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        self.fold_name = f"{self.AI_model.model_name}-{self.dataset.dataset_name}"
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.fold_name
 
 class FoldInfo(models.Model):
     fold = models.ForeignKey(Fold, on_delete=models.CASCADE)  # Add this line
@@ -159,6 +176,16 @@ class FoldClassInfo(models.Model):
     recall = models.FloatField()
     f1score = models.FloatField()
     support = models.FloatField()
+
+class Leaderboard(models.Model):
+    username = models.CharField(max_length=200)
+    score = models.FloatField()
+    game_mode = models.CharField(max_length=200)
+
+class Scoreboard(models.Model):
+    name = models.CharField(max_length=200)
+    score = models.FloatField()
+    gameID = models.CharField(max_length=200)
 
 
 @receiver(post_save, sender=Dataset)

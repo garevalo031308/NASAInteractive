@@ -20,7 +20,7 @@
     <a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a>
     <a href="{% url 'models' %}" class="{% if request.resolver_match.url_name == 'models' %}active{% endif %}">Models</a>
     <a href="{% url 'datasets' %}" class="{% if request.resolver_match.url_name == 'datasets' %}active{% endif %}">Datasets</a>
-    <a href="{% url 'game' %}" class="{% if request.resolver_match.url_name == 'game' %}active{% endif %}">Game</a>
+    <a href="{% url 'game' %}" class="{% if request.resolver_match.url_name == 'game' %}active{% endif %}" target="_blank">Game</a>
     <a href="{% url 'about-us' %}" class="{% if request.resolver_match.url_name == 'about-us' %}active{% endif %}">About Us</a>
     <a>Past Work</a>
     <a>Past Members</a>

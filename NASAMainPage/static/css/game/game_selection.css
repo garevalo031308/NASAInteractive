@@ -1,0 +1,64 @@
+body {
+    display: grid;
+    background: linear-gradient(90deg, #225CD4 0%, #000000 50%, #FF241F 100%);
+}
+
+#cclogo{
+    position: absolute;
+    width: 623px;
+    height: 428px;
+
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    z-index: -1;
+}
+
+button {
+    background: #000000;
+    border-radius: 28px;
+
+    width: 245px;
+    height: 51px;
+
+    color: white;
+    font-family: 'Inter', serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 36px;
+    text-align: center;
+
+    z-index: 100;
+}
+
+#modeselection button.active {
+    background: linear-gradient(90deg, #225CD4 0%, #F2202A 100%);
+}
+#gamemode button.active {
+    background: linear-gradient(90deg, #225CD4 0%, #F2202A 100%);
+}
+#dataset button.active{
+    background: linear-gradient(90deg, #225CD4 0%, #F2202A 100%);
+}
+#difficulty button.active {
+    background: linear-gradient(90deg, #225CD4 0%, #F2202A 100%);
+}
+#model button.active{
+    background: linear-gradient(90deg, #225CD4 0%, #F2202A 100%);
+}
+
+#startgame button.active{
+    background: linear-gradient(90deg, #225CD4 0%, #F2202A 100%);
+}
+
+#dataset {
+    color: white;
+}
+
+#datasetclasses {
+    text-decoration: none;
+    display: flex;
+    gap: 20px;
+}

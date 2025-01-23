@@ -1,0 +1,33 @@
+<!-- NASAMainPage/templates/home.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classifier Clash</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/game/loading_screen.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="{% static 'scripts/game/model_prepping.js' %}"></script>
+    <script>
+        const model = "{{ model }}";
+    </script>
+</head>
+<body>
+    <img id="cclogo" src="{% static 'images/game/classifier_clash.png' %}" alt="Classifier Clash Logo">
+    <h1>Getting random assortment of images</h1>
+    <h1>Prepping Model...</h1>
+    <div class="loader"></div>
+    <div id="status"></div>
+    <div>
+        {% for image in images %}
+{#            <h1>{{ image }}</h1>#}
+            {% for cls, path in image.items %}
+{#                <h1>{{ cls }}</h1>#}
+{#                <h1>{{ path }}</h1>#}
+                <img src="{% static path %}" alt="yes">
+            {% endfor %}
+        {% endfor %}
+    </div>
+</body>
+</html>

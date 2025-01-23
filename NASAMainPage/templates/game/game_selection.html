@@ -1,11 +1,70 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Classifier Clash: Game Selection</title>
+    <link rel="stylesheet" href="{% static 'css/game/game_selection.css' %}">
+    <script>
+        const datasets = {{ datasets|safe }};
+        const dataset_to_models = {{ dataset_to_models|safe }}
+    </script>
+    <script src="{% static 'scripts/game/selection.js' %}"></script>
 </head>
-<body style="background: rgb(0,116,255);
-background: linear-gradient(150deg, rgba(0,116,255,1) 0%, rgba(40,35,40,1) 50%, rgba(255,56,0,1) 100%);">
+<body>
+    <img id="cclogo" src="{% static 'images/game/classifier_clash.png' %}" alt="Classifier Clash Logo">
+    <div id="options">
 
+        <div id="name">
+            <h2>Enter Username</h2>
+            <label>
+                <input type="text" name="username" id="username">
+            </label>
+        </div>
+
+        <div id="modeselection">
+            <h2>Select Mode</h2>
+            <button>AI VS AI</button>
+            <button>AI VS Player</button>
+            <button>Solo</button>
+    {#        <button>Player vs Player</button> Implement Later #}
+        </div>
+
+        <div id="gamemode">
+            <h2>Game Mode</h2>
+            <button id="QM">Quick Match</button>
+            <button id="endurance">Endurance</button>
+            <button id="blitz">Blitz</button>
+            <button id="RR">Rapid Rounds</button>
+        </div>
+
+        <div id="difficulty">
+            <h2>Difficulty</h2>
+            <button>Easy</button>
+            <button>Medium</button>
+            <button>Hard</button>
+            <button>Mixed</button>
+        </div>
+
+        <div id="dataset">
+            <h2>Dataset</h2>
+            {% for dataset, data in datasets.items %}
+                <button>{{ dataset }}</button>
+            {% endfor %}
+            <div id="datasetinfo"></div>
+        </div>
+
+        <div id="model">
+            <h2>Model</h2>
+{#            {% for model in active %}#}
+{#                <button>{{ model.model_name }}</button>#}
+{#            {% endfor %}#}
+        </div>
+
+        <div id="startgame">
+
+        </div>
+
+    </div>
 </body>
 </html>

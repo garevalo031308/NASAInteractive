@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Load the model and make a prediction
     (async () => {
-        const modelDirectory = '/static/models/VGG16/model.json'; // Change this to the path of your model's JSON file
+        const modelDirectory = '/static/models/VGG1/model.json'; // Change this to the path of your model's JSON file
         const model = await loadModelFromDirectory(modelDirectory);
         const classes = ['bright_dune', 'crater', 'dark_dune', 'edge', 'other', 'streak'];
         const imagePath = '/static/Datasets/HiRISE/Streak/ESP_012971_2015_RED-0072.jpg'; // Change this to the path of your image
