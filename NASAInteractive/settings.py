@@ -33,7 +33,7 @@ ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app']
 # Application definition
 
 INSTALLED_APPS = [
-    'NASAMainPage.apps.NasamainpageConfig',
+    # 'NASAMainPage.apps.NasamainpageConfig',
     'nested_admin',
     # 'storages',
     'django.contrib.admin',
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'NASAMainPage'
 ]
 
 MIDDLEWARE = [
