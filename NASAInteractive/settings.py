@@ -74,7 +74,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'NASAInteractive.wsgi.app'
+WSGI_APPLICATION = 'NASAInteractive.wsgi.application'
 # WSGI_APPLICATION = 'api.wsgi.app'
 
 
