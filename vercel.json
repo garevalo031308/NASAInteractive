@@ -1,9 +1,4 @@
 {
-    "builds": [{
-      "src": "NASAInteractive/wsgi.py",
-      "use": "@vercel/python",
-      "config": { "maxLambdaSize": "300mb", "runtime": "python3.12" }
-    }],
     "routes": [
       {
         "src": "/(.*)",
