@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     const countdownDiv = document.createElement("div");
     const imageContainer = document.getElementById('image-container');
 
+    const images = []
+
     async function loadModelFromDirectory(directoryPath) {
         try {
             const model = await tf.loadLayersModel(directoryPath);
@@ -21,6 +23,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 imgElement.src = imgSrc;
                 imgElement.alt = cls;
                 imageContainer.appendChild(imgElement);
+                console.log(imageData)
             }
         });
     }
@@ -41,7 +44,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 url.searchParams.append('difficulty', difficulty);
                 url.searchParams.append('model', model);
                 url.searchParams.append('username', username);
-                url.searchParams.append('round_images', round_images)
+                url.searchParams.append('round_images', images.toString())
                 window.location.href = url.toString();
             }
         }, 1000);

@@ -1,0 +1,4 @@
+- Make sure game is playable with different game modes
+- Make sure main functions of website is usable
+- Change design UI
+- (Possible) Deploy it

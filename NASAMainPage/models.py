@@ -182,14 +182,34 @@ class Leaderboard(models.Model):
     score = models.FloatField()
     game_mode = models.CharField(max_length=200)
 
-class Scoreboard(models.Model):
-    name = models.CharField(max_length=200)
-    score = models.FloatField()
-    gameID = models.CharField(max_length=200)
-
 class Definition(models.Model):
     term = models.CharField(max_length=200)
     definition = models.CharField(max_length=200)
+
+class Game(models.Model):
+    gamemode = models.CharField(max_length=200)
+    difficulty = models.CharField(max_length=200)
+    ai_model = models.ForeignKey(AIModel, on_delete=models.CASCADE)
+    dataset = models.ForeignKey(Dataset, on_delete=models.CASCADE)
+    username = models.CharField(max_length=200)
+    total_score = models.IntegerField()
+    number_of_rounds = models.IntegerField()
+    number_correct = models.IntegerField()
+    number_incorrect = models.IntegerField()
+    active_game = models.BooleanField()
+
+class Round(models.Model):
+    gameID = models.ForeignKey(Game, on_delete=models.CASCADE)
+    round_number = models.IntegerField()
+    score = models.IntegerField()
+    correct = models.BooleanField()
+    image = models.ForeignKey(Picture, on_delete=models.CASCADE)
+
+class Scoreboard(models.Model):
+    name = models.CharField(max_length=200)
+    score = models.FloatField()
+    gameID = models.ForeignKey(Game, on_delete=models.CASCADE)
+
 
 
 @receiver(post_save, sender=Dataset)

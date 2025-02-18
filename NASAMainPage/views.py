@@ -235,6 +235,8 @@ def game(request):
     all_classes = [cls for cls in dataset_classes]
 
     print(dataset_classes)
+    print(round_images)
+    print(dataset)
 
     context = {
         'mode': mode,
