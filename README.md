@@ -2,6 +2,9 @@
 
 An interactive app for classification models used in NASA CNN independent study.
 
+# Objective
+The objective of this project is to be able to compare and contrast two different types of image classification models. Convolutional Neural Networks and Vision Transformers. The application will allow you to be able to test and try both models on their respective datasets. As well as be able to see the different metrics for each model.
+
 ## Introduction
 
 This project is an interactive application designed to demonstrate and utilize classification models developed during an independent study on NASA's Convolutional Neural Networks (CNN).
