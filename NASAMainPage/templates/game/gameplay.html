@@ -4,15 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Classifier Clash - Gameplay</title>
-    <link rel="icon" type="image/x-icon" href="{% static  'images/game/classifier_clash.png'%}">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/game/classifier_clash.png' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/game/gameplay.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="{% static 'scripts/game/model_guessing.js' %}"></script>
+    <script>
+        const model = "{{ model }}";
+        const image = "{% static round_image|safe %}";
+        const round_number = {{ round_number }};
+        const classChoices = {{ model_class_choices|safe }};
+    </script>
 </head>
 <body>
 <div id="model"><h1>{{ model }}</h1></div>
-    <div id="image"></div>
-    <div id="choice1"></div>
-    <div id="choice2"></div>
-    <div id="choice3"></div>
-    <div id="choice4"></div>
+<img id="image" alt="image" src="{% static round_image %}"/>
+{% for cls in class_choices %}
+    <button>{{ cls }}</button>
+{% endfor %}
+<p>{{ round_image }}</p>
+<div id="modelguess"></div>
 </body>
 </html>

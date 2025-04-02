@@ -197,6 +197,7 @@ class Game(models.Model):
     number_correct = models.IntegerField()
     number_incorrect = models.IntegerField()
     active_game = models.BooleanField()
+    current_round = models.IntegerField(default=1)
 
 class Round(models.Model):
     gameID = models.ForeignKey(Game, on_delete=models.CASCADE)

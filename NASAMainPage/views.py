@@ -7,7 +7,7 @@ from PIL import Image
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
 
-from .models import Dataset, DatasetClasses, Picture, AIModel, Fold, FoldInfo, UserSections
+from .models import Dataset, DatasetClasses, Picture, AIModel, Fold, FoldInfo, UserSections, Game, Round
 
 
 def index(request):
@@ -166,9 +166,6 @@ def game_selection(request):
 
     return render(request, "game/game_selection.html", {"active": active_models, "datasets": datasets_with_classes, "dataset_to_models": dataset_to_models})
 
-import base64
-from io import BytesIO
-
 def model_prepping(request):
     mode = request.GET.get('mode')
     gamemode = request.GET.get('gamemode')
@@ -176,6 +173,7 @@ def model_prepping(request):
     difficulty = request.GET.get('difficulty')
     model = request.GET.get('model')
     username = request.GET.get('username')
+    number_of_rounds = 5
 
     chosen_dataset = get_object_or_404(Dataset, dataset_name=dataset)
     dataset_classes = DatasetClasses.objects.filter(dataset=chosen_dataset.id)
@@ -189,25 +187,23 @@ def model_prepping(request):
     random_image_list = random.choices(all_images, k=5)
     round_images = []
 
-    for data in random_image_list:
-        for cls in data:
-            image_path = data[cls]
-            img = Image.open(f"NASAMainPage/static/{image_path}")
+    ai_model = get_object_or_404(AIModel, model_name=model)
 
-            if difficulty == "Medium":
-                img = img.rotate(random.randrange(0, 360))
-            elif difficulty == "Hard":
-                img = img.rotate(random.randrange(0, 360))
-                img = img.resize((img.width // 2, img.height // 2))
-            elif difficulty == 'Mixed':
-                img = img.rotate(random.randrange(0, 360))
-                img = img.resize((img.width // 2, img.height // 2))
-                # img = img.transpose(Image.FLIP_LEFT_RIGHT)
+    upload_game = Game(gamemode=gamemode, dataset=chosen_dataset, difficulty=difficulty, ai_model=ai_model,
+                       username=username, total_score=0, number_of_rounds=number_of_rounds,
+                       number_correct=0, number_incorrect=0, active_game=True)
+    upload_game.save()
 
-            buffered = BytesIO()
-            img.save(buffered, format="PNG")
-            img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
-            round_images.append({cls: f"data:image/png;base64,{img_str}"})
+    game_id = upload_game.id
+
+    for i in range(number_of_rounds):
+        current_round_image = random_image_list[i]
+        current_round_cls = list(current_round_image.keys())[0]
+        image_path = current_round_image[current_round_cls]
+        picture_instance = get_object_or_404(Picture, image=os.path.join("NASAMainPage\\static\\", image_path))
+        new_round = Round(gameID=upload_game, round_number=i+1, score=0, correct=False, image=picture_instance)
+        new_round.save()
+        round_images.append({current_round_cls: image_path})
 
     context = {
         'mode': mode,
@@ -216,39 +212,45 @@ def model_prepping(request):
         'difficulty': difficulty,
         'model': model,
         'username': username,
-        'images': round_images
+        'images': round_images,
+        'game_id': game_id,
     }
+    print(round_images)
     return render(request, "game/model_prepping.html", context)
 
 def game(request):
-    # TODO get round_images classes, then get the class names and pass them to the template
-    mode = request.GET.get('mode')
-    gamemode = request.GET.get('gamemode')
-    dataset = request.GET.get('dataset')
-    difficulty = request.GET.get('difficulty')
-    model = request.GET.get('model')
-    username = request.GET.get('username')
-    round_images = request.GET.get('round_images')
+    game_id = request.GET.get('gameid')
+    game = get_object_or_404(Game, id=game_id)
 
-    chosen_dataset = get_object_or_404(Dataset, dataset_name=dataset)
+    current_round_number = game.current_round
+    current_round = get_object_or_404(Round, gameID=game_id, round_number=current_round_number)
+    round_image = current_round.image
+    round_image_class = round_image.dataset_class
+
+    chosen_dataset = get_object_or_404(Dataset, dataset_name=game.dataset.dataset_name)
     dataset_classes = DatasetClasses.objects.filter(dataset=chosen_dataset.id)
     all_classes = [cls for cls in dataset_classes]
+    all_classes_names = [cls.dataset_class_name for cls in all_classes]
 
-    print(dataset_classes)
-    print(round_images)
-    print(dataset)
+    # Ensure round_image_class is in the list and get 3 other random classes
+    other_classes = [cls.dataset_class_name for cls in all_classes if cls != round_image_class]
+    random_classes = random.sample(other_classes, 3)
+    class_choices = random_classes + [round_image_class.dataset_class_name]
+    random.shuffle(class_choices)
+
+    print(class_choices)
+    print(all_classes_names)
+    print(round_image_class)
+    relative_round_image_path = os.path.relpath(round_image.image.path, "NASAMainPage/static")
 
     context = {
-        'mode': mode,
-        'gamemode': gamemode,
-        'dataset': dataset,
-        'difficulty': difficulty,
-        'model': model,
-        'username' : username,
-        'class_choices': all_classes
+        'model': game.ai_model.model_name,
+        'round_image' : relative_round_image_path,
+        'round_number': current_round_number,
+        'round_image_class': round_image_class,
+        'class_choices': class_choices,
+        'model_class_choices': all_classes_names
     }
-
-    print(mode, gamemode, dataset, difficulty, model, username)
 
     return render(request, "game/gameplay.html", context)
 

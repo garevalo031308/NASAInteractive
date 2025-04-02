@@ -19,8 +19,9 @@
       <excludeFolder url="file://$MODULE_DIR$/NASAMainPage/static/Datasets" />
       <excludeFolder url="file://$MODULE_DIR$/node_modules" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="NASAInteractive" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="@tensorflow/tfjs" level="application" />
     <orderEntry type="library" name="@tensorflow/tfjs" level="application" />
   </component>
   <component name="TemplatesService">
