@@ -205,11 +205,14 @@ class Round(models.Model):
     score = models.IntegerField()
     correct = models.BooleanField()
     image = models.ForeignKey(Picture, on_delete=models.CASCADE)
+    ai_score = models.IntegerField()
+
 
 class Scoreboard(models.Model):
     name = models.CharField(max_length=200)
     score = models.FloatField()
     gameID = models.ForeignKey(Game, on_delete=models.CASCADE)
+
 
 
 

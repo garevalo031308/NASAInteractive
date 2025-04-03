@@ -59,7 +59,8 @@ def datasets(request):
                 {
                     'class_name': cls.dataset_class_name,
                     'number_of_images': cls.class_number_of_images,
-                    'random_image': os.path.relpath(random.choice(Picture.objects.filter(dataset_class=cls)).image.path, 'NASAMainPage/static/') if Picture.objects.filter(dataset_class=cls).exists() else None
+                    'random_image': os.path.relpath(random.choice(Picture.objects.filter(dataset_class=cls)).image.path,
+                                                    'NASAMainPage/static/') if Picture.objects.filter(dataset_class=cls).exists() else None
                 }
                 for cls in DatasetClasses.objects.filter(dataset=dataset)
             ],
@@ -201,7 +202,7 @@ def model_prepping(request):
         current_round_cls = list(current_round_image.keys())[0]
         image_path = current_round_image[current_round_cls]
         picture_instance = get_object_or_404(Picture, image=os.path.join("NASAMainPage\\static\\", image_path))
-        new_round = Round(gameID=upload_game, round_number=i+1, score=0, correct=False, image=picture_instance)
+        new_round = Round(gameID=upload_game, round_number=i+1, score=0, correct=False, image=picture_instance, ai_score=0)
         new_round.save()
         round_images.append({current_round_cls: image_path})
 
@@ -238,6 +239,8 @@ def game(request):
     class_choices = random_classes + [round_image_class.dataset_class_name]
     random.shuffle(class_choices)
 
+    correct_class = round_image_class.dataset_class_name
+
     print(class_choices)
     print(all_classes_names)
     print(round_image_class)
@@ -249,7 +252,8 @@ def game(request):
         'round_number': current_round_number,
         'round_image_class': round_image_class,
         'class_choices': class_choices,
-        'model_class_choices': all_classes_names
+        'model_class_choices': all_classes_names,
+        'correct_class': correct_class,
     }
 
     return render(request, "game/gameplay.html", context)

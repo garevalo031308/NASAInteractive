@@ -1,8 +1,7 @@
 document.addEventListener("DOMContentLoaded", async function() {
     const statusDiv = document.getElementById('modelguess');
     const imageElement = document.getElementById('image');
-
-    const classChoices = ['Bright Dune', 'Crater', 'Dark Dune', "Edge", 'Other', "Streak"]; // Define your class labels here
+    console.log(model);
 
     async function loadImage(filePath, batchShape) {
         const img = new Image();
@@ -15,18 +14,21 @@ document.addEventListener("DOMContentLoaded", async function() {
             throw new Error("Batch shape is not defined");
         }
         return tf.browser.fromPixels(img)
-            .resizeNearestNeighbor(batchShape) // Use the batch shape here
+            .resizeNearestNeighbor([224, 224]) // Use the batch shape here
             .toFloat()
             .expandDims();
     }
 
     async function predictImage(model, imagePath, batchShape) {
         const imageTensor = await loadImage(imagePath, batchShape);
+        const startTime = performance.now(); // Start time
         const prediction = model.predict(imageTensor);
         const probabilities = prediction.softmax().dataSync(); // Get probabilities using softmax
         const predictedIndex = prediction.argMax(-1).dataSync()[0]; // Ensure correct index retrieval
+        const endTime = performance.now(); // End time
         const predictedClass = classChoices[predictedIndex];
-        return { predictedClass, probabilities };
+        const timeTaken = endTime - startTime; // Calculate time taken
+        return { predictedClass, probabilities, timeTaken };
     }
 
     let loaded_model;
@@ -49,8 +51,9 @@ document.addEventListener("DOMContentLoaded", async function() {
     }
 
     console.log(image);
-    const { predictedClass, probabilities } = await predictImage(loaded_model, image, batchShape);
+    const { predictedClass, probabilities, timeTaken } = await predictImage(loaded_model, image, batchShape);
     console.log('Predicted Class:', predictedClass);
     console.log('Probabilities:', probabilities);
-    statusDiv.innerText = `Predicted class: ${predictedClass}\nProbabilities: ${probabilities}`;
+    console.log('Time taken for prediction:', timeTaken, 'ms');
+    statusDiv.innerText = `Predicted class: ${predictedClass}\nProbabilities: ${probabilities}\nTime taken: ${timeTaken.toFixed(2)} ms`;
 });
