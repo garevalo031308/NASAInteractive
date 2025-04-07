@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/game/loading_screen.css' %}">
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="{% static 'scripts/game/model_prepping.js' %}"></script>
+    <script src="{% static 'scripts/game/model_guessing.js' %}"></script>
     <script>
         const model = "{{ model }}";
         const dataset = "{{ dataset }}";
@@ -19,6 +20,8 @@
         const username = "{{ username }}";
         const round_images = {{ images|safe }};
         const game_id = "{{ game_id }}";
+        const image_paths = {{ image_paths|safe }}
+        const classChoices = {{ class_choices|safe }}
     </script>
 </head>
 <body>

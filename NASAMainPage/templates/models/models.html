@@ -34,7 +34,7 @@
 <div id="models-list">
     {% for model in models %}
         <div class="model-item">
-            <a href="{% url 'model_detail' model.model_name %}">
+            <a href="{% url 'model_detail' model.id %}">
                 <h1 id="modelname">{{ model.model_name }}</h1>
             </a>
             <a href="{% url 'dataset_detail' model.model_dataset %}">

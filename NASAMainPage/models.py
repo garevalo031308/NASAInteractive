@@ -177,11 +177,6 @@ class FoldClassInfo(models.Model):
     f1score = models.FloatField()
     support = models.FloatField()
 
-class Leaderboard(models.Model):
-    username = models.CharField(max_length=200)
-    score = models.FloatField()
-    game_mode = models.CharField(max_length=200)
-
 class Definition(models.Model):
     term = models.CharField(max_length=200)
     definition = models.CharField(max_length=200)
@@ -193,9 +188,12 @@ class Game(models.Model):
     dataset = models.ForeignKey(Dataset, on_delete=models.CASCADE)
     username = models.CharField(max_length=200)
     total_score = models.IntegerField()
+    ai_total_score = models.IntegerField()
     number_of_rounds = models.IntegerField()
     number_correct = models.IntegerField()
     number_incorrect = models.IntegerField()
+    ai_number_correct = models.IntegerField()
+    ai_number_incorrect = models.IntegerField()
     active_game = models.BooleanField()
     current_round = models.IntegerField(default=1)
 
@@ -203,15 +201,23 @@ class Round(models.Model):
     gameID = models.ForeignKey(Game, on_delete=models.CASCADE)
     round_number = models.IntegerField()
     score = models.IntegerField()
+    player_time = models.FloatField()
+    player_answer = models.CharField(max_length=200)
     correct = models.BooleanField()
     image = models.ForeignKey(Picture, on_delete=models.CASCADE)
     ai_score = models.IntegerField()
+    ai_time = models.FloatField()
+    ai_answer = models.CharField(max_length=200)
+    ai_correct = models.BooleanField()
 
-
-class Scoreboard(models.Model):
-    name = models.CharField(max_length=200)
+class Leaderboard(models.Model):
+    username = models.CharField(max_length=200)
+    game_id = models.ForeignKey(Game, on_delete=models.CASCADE)
     score = models.FloatField()
-    gameID = models.ForeignKey(Game, on_delete=models.CASCADE)
+    game_mode = models.CharField(max_length=200)
+    ai_model = models.ForeignKey(AIModel, on_delete=models.CASCADE)
+    dataset = models.ForeignKey(Dataset, on_delete=models.CASCADE)
+    ai_score = models.FloatField()
 
 
 

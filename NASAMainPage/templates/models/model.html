@@ -38,7 +38,7 @@
 <div id="information">
     {% if active %}
         <h1 style="color:green">Active</h1>
-        <a href="{% url 'test_model' model.model_name %}">Test Model</a>
+        <a href="{% url 'test_model' model.id %}">Test Model</a>
     {% else %}
         <h1 style="color:red">Inactive</h1>
     {% endif %}

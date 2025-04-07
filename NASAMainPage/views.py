@@ -1,14 +1,60 @@
 # NASAMainPage/views.py
+import json
 import os
 import random
 from pathlib import Path
 from PIL import Image
 
 from django.conf import settings
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 
-from .models import Dataset, DatasetClasses, Picture, AIModel, Fold, FoldInfo, UserSections, Game, Round
+from .models import Dataset, DatasetClasses, Picture, AIModel, Fold, FoldInfo, UserSections, Game, Round, Leaderboard
 
+
+def calculate_score(correct, time_taken, beat_ai_time):
+    if not correct:
+        return 0
+
+    scoring = {
+        "base_score_correct": 1000,
+        "time_bonus_max": 1000,
+        "time_penalty_per_millisecond": 0.03,
+        "ai_bonus": {
+            "beat_time": 200,
+            "beat_accuracy": 300,
+        },
+        "max_time": 30,  # seconds
+    }
+
+    base = scoring["base_score_correct"]
+    time_bonus = max(0, scoring["time_bonus_max"] - int(time_taken* scoring["time_penalty_per_millisecond"]))
+
+    ai_bonus = 0
+    if beat_ai_time:
+        ai_bonus += scoring["ai_bonus"]["beat_time"]
+
+    total_score = base + time_bonus + ai_bonus
+    return total_score
+
+def calculate_ai_score(correct, time_taken):
+    scoring = SCORING_CONFIG = {
+        "base_score_correct": 1000,
+        "time_bonus_max": 1000,
+        "time_penalty_per_millisecond": 0.03,
+        "ai_bonus": {
+            "beat_time": 200,
+            "beat_accuracy": 300,
+        },
+        "max_time": 30,
+    }
+    if not correct: return 0
+    base = scoring["base_score_correct"]
+    time_bonus = max(0, scoring["time_bonus_max"] - int(time_taken * scoring["time_penalty_per_millisecond"]))
+
+    total_score = base + time_bonus
+    return total_score
 
 def index(request):
     return render(request, "index.html")
@@ -18,8 +64,8 @@ def home(request):
     return render(request, 'home.html')
 
 
-def test_model(request, model_name):
-    model = get_object_or_404(AIModel, model_name=model_name)
+def test_model(request, id):
+    model = get_object_or_404(AIModel, id=id)
     dataset = get_object_or_404(Dataset, dataset_name=model.model_dataset.dataset_name)
     dataset_classes = DatasetClasses.objects.filter(dataset=dataset)
     total_number_of_images = dataset.dataset_number_of_images
@@ -38,7 +84,7 @@ def test_model(request, model_name):
     }
 
     return render(request, 'models/test_model.html', {
-        'model_name': model_name,
+        'model_name': model.model_name,
         'dataset': dataset,
         'cls_info': cls_info,
         'total_images': total_number_of_images,
@@ -71,8 +117,8 @@ def datasets(request):
     return render(request, 'datasets/datasets.html', {'datasets_with_classes': datasets_with_classes})
 
 
-def model_detail(request, model_name):
-    model = get_object_or_404(AIModel, model_name=model_name)
+def model_detail(request, id):
+    model = get_object_or_404(AIModel, id=id)
     model_dataset = model.model_dataset
     user_sections = UserSections.objects.filter(model=model).all()
 
@@ -178,6 +224,7 @@ def model_prepping(request):
 
     chosen_dataset = get_object_or_404(Dataset, dataset_name=dataset)
     dataset_classes = DatasetClasses.objects.filter(dataset=chosen_dataset.id)
+    classes = [cls.dataset_class_name for cls in dataset_classes]
     all_images = []
     for cls in dataset_classes:
         class_pictures = Picture.objects.filter(dataset=chosen_dataset, dataset_class=cls)
@@ -187,12 +234,14 @@ def model_prepping(request):
     random.shuffle(all_images)
     random_image_list = random.choices(all_images, k=5)
     round_images = []
+    image_paths = []
 
-    ai_model = get_object_or_404(AIModel, model_name=model)
+    ai_model = get_object_or_404(AIModel, model_name=model, model_dataset=chosen_dataset)
 
     upload_game = Game(gamemode=gamemode, dataset=chosen_dataset, difficulty=difficulty, ai_model=ai_model,
                        username=username, total_score=0, number_of_rounds=number_of_rounds,
-                       number_correct=0, number_incorrect=0, active_game=True)
+                       number_correct=0, number_incorrect=0, active_game=True, ai_total_score=0,
+                       ai_number_correct=0, ai_number_incorrect=0)
     upload_game.save()
 
     game_id = upload_game.id
@@ -202,9 +251,18 @@ def model_prepping(request):
         current_round_cls = list(current_round_image.keys())[0]
         image_path = current_round_image[current_round_cls]
         picture_instance = get_object_or_404(Picture, image=os.path.join("NASAMainPage\\static\\", image_path))
-        new_round = Round(gameID=upload_game, round_number=i+1, score=0, correct=False, image=picture_instance, ai_score=0)
+        new_round = Round(gameID=upload_game, round_number=i+1, score=0,
+                          correct=False, image=picture_instance, ai_score=0,
+                          player_time=0, player_answer="", ai_time=0, ai_answer="",
+                          ai_correct = False
+                          )
         new_round.save()
         round_images.append({current_round_cls: image_path})
+        image_paths.append(image_path)
+
+    print(round_images)
+    print(image_paths)
+    print(classes)
 
     context = {
         'mode': mode,
@@ -215,8 +273,9 @@ def model_prepping(request):
         'username': username,
         'images': round_images,
         'game_id': game_id,
+        'image_paths': image_paths,
+        'class_choices': classes,
     }
-    print(round_images)
     return render(request, "game/model_prepping.html", context)
 
 def game(request):
@@ -240,23 +299,121 @@ def game(request):
     random.shuffle(class_choices)
 
     correct_class = round_image_class.dataset_class_name
-
-    print(class_choices)
-    print(all_classes_names)
-    print(round_image_class)
-    relative_round_image_path = os.path.relpath(round_image.image.path, "NASAMainPage/static")
+    print(game_id)
 
     context = {
         'model': game.ai_model.model_name,
-        'round_image' : relative_round_image_path,
+        'round_image': os.path.relpath(round_image.image.path, "NASAMainPage/static"),
         'round_number': current_round_number,
         'round_image_class': round_image_class,
         'class_choices': class_choices,
         'model_class_choices': all_classes_names,
         'correct_class': correct_class,
+        'gameid': game_id
     }
 
     return render(request, "game/gameplay.html", context)
+
+def round_results(request):
+    game_id = request.GET.get('gameid')
+    selected_class = request.GET.get('selectedClass')
+    time_taken =  request.GET.get('timeTaken')
+
+    game = get_object_or_404(Game, id=game_id)
+    current_round = game.current_round
+    current_round = get_object_or_404(Round, gameID=game_id, round_number=current_round)
+
+    round_class = current_round.image.dataset_class
+    if str(round_class).strip() == str(selected_class).strip():
+        correct_answer = True
+    else:
+        correct_answer = False
+
+    ai_time = current_round.ai_time
+
+    if float(time_taken) < ai_time:
+        beat_ai_time = True
+    else:
+        beat_ai_time = False
+
+    player_score = calculate_score(correct_answer, float(time_taken), beat_ai_time)
+    ai_score = calculate_ai_score(correct_answer, ai_time)
+
+    print("Player Score:", player_score)
+    print("AI Score:", ai_score)
+
+    print(correct_answer, beat_ai_time)
+
+    print(game_id)
+    print(selected_class)
+    print(time_taken)
+    current_round.score = player_score
+    current_round.ai_score = ai_score
+    current_round.player_time  = float(time_taken)
+    current_round.player_answer = selected_class
+    current_round.correct = correct_answer
+    current_round.save()
+
+    game.current_round = game.current_round+1
+    game.total_score = game.total_score+player_score
+    game.ai_total_score = game.ai_total_score+ai_score
+    game.save()
+
+    context = {
+        'selected_class': selected_class,
+        'time_taken': time_taken,
+        'correct_answer': current_round.image.dataset_class.dataset_class_name,
+        'ai_score': ai_score,
+        'player_score': player_score,
+        'ai_time': current_round.ai_time,
+        'ai_answer': current_round.ai_answer,
+        'gameid': game_id,
+        'round_number': current_round.round_number,
+    }
+
+    return render(request, "game/round_results.html", context)
+
+def game_results(request):
+    game_id = request.GET.get('gameid')
+
+    game = get_object_or_404(Game, id=game_id)
+
+    new_leaderboard = Leaderboard(username=game.username, game_id=game, score=game.total_score,
+                                  game_mode=game.gamemode, ai_model=game.ai_model, dataset=game.dataset,
+                                  ai_score=game.ai_total_score)
+
+    new_leaderboard.save()
+    context = {}
+    return render(request, "game/end_game.html", context)
+
+@csrf_exempt
+def save_predictions(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        results = data.get('results', [])
+        game_id = data.get('game_id')
+
+        # Save the results to the session or database
+        request.session['prediction_results'] = results
+        print(results)
+        print(game_id)
+
+        for i in range(5):
+            if i < len(results):
+                result = results[i]
+                predicted_class = result.get('predictedClass')
+                time_taken = result.get('timeTaken')
+                print(f"Prediction Result {i+1}: Class - {predicted_class}, Time Taken - {time_taken} ms")
+                ai_rounds = get_object_or_404(Round, gameID=game_id, round_number=i+1)
+                ai_rounds.ai_answer = predicted_class
+                ai_rounds.ai_time = float(time_taken)
+                ai_rounds.ai_correct = True if ai_rounds.image.dataset_class.dataset_class_name.strip() == predicted_class.strip() else False
+                ai_rounds.save()
+                print(ai_rounds.ai_answer)
+
+        return JsonResponse({'status': 'success'})
+
+    return JsonResponse({'status': 'error'}, status=400)
 
 def leaderboard(request):
     return render(request, "game/leaderboard.html")

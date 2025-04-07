@@ -1,48 +1,47 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Select all buttons
-    const buttons = document.querySelectorAll('button');
+document.addEventListener("DOMContentLoaded", function() {
+    const buttons = document.querySelectorAll(".class-buttons");
+    let timer;
+    const startTime = Date.now();
 
-    // Create a waiting screen element
-    const waitingScreen = document.createElement('div');
-    waitingScreen.id = 'waiting-screen';
-    waitingScreen.style.position = 'fixed';
-    waitingScreen.style.top = '0';
-    waitingScreen.style.left = '0';
-    waitingScreen.style.width = '100%';
-    waitingScreen.style.height = '100%';
-    waitingScreen.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-    waitingScreen.style.color = 'white';
-    waitingScreen.style.display = 'flex';
-    waitingScreen.style.justifyContent = 'center';
-    waitingScreen.style.alignItems = 'center';
-    waitingScreen.style.fontSize = '2em';
-    waitingScreen.innerText = 'Waiting for the other player to guess...';
-    waitingScreen.style.display = 'none'; // Initially hidden
-    document.body.appendChild(waitingScreen);
+    function startTimer(duration, display) {
+        let timer = duration, minutes, seconds;
+        const countdown = setInterval(function () {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
 
-    // Create a countdown timer element
-    const countdownTimer = document.createElement('div');
-    countdownTimer.id = 'countdown-timer';
-    countdownTimer.style.position = 'fixed';
-    countdownTimer.style.top = '10px';
-    countdownTimer.style.right = '10px';
-    countdownTimer.style.fontSize = '2em';
-    countdownTimer.style.color = 'black';
-    document.body.appendChild(countdownTimer);
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
 
-    let userGuess = null;
+            display.textContent = minutes + ":" + seconds;
 
-    // Add click event listener to each button
+            if (--timer < 0) {
+                clearInterval(countdown);
+                redirectToResults();
+            }
+        }, 1000);
+        return countdown;
+    }
+
+    function redirectToResults(selectedClass = null) {
+        const endTime = Date.now();
+        const timeTaken = endTime - startTime;
+        const url = new URL('NASAMainPage/game/round_results', window.location.origin);
+        url.searchParams.append('selectedClass', selectedClass);
+        url.searchParams.append('gameid', gameid);
+        url.searchParams.append('timeTaken', timeTaken);
+        window.location.href = url.toString();
+    }
+
     buttons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Store the user's guess
-            userGuess = button.innerText;
-
-            // Show the waiting screen
-            waitingScreen.style.display = 'flex';
-
-            // Here you would typically send the user's guess to the server
-            // and wait for the response indicating the other player's guess
+        button.addEventListener("click", function() {
+            clearInterval(timer);
+            const selectedClass = button.innerText;
+            redirectToResults(selectedClass);
         });
     });
+
+    const display = document.createElement('div');
+    display.id = 'timer';
+    document.body.appendChild(display);
+    timer = startTimer(30, display);
 });

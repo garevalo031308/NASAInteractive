@@ -24,7 +24,10 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then((data) => {
                 const batch_shape_list = data['modelTopology']['model_config']['config']['layers'][0]["config"]["batch_input_shape"];
-                return [batch_shape_list[1], batch_shape_list[2]];
+                console.log(batch_shape_list);
+                if (batch_shape_list[1] === null && batch_shape_list[2] === null) {
+                    return [1024, 0]
+                } else {return [batch_shape_list[1], batch_shape_list[2]];}
             })
             .catch((error) => {
                 console.error("Unable to fetch data:", error);

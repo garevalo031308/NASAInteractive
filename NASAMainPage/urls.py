@@ -3,8 +3,8 @@ from . import views
 
 urlpatterns = [
     path("models/", views.models, name="models"),
-    path("models/<str:model_name>/", views.model_detail, name="model_detail"),
-    path("models/<str:model_name>/test_model/", views.test_model, name="test_model"),
+    path("models/<str:id>/", views.model_detail, name="model_detail"),
+    path("models/<str:id>/test_model/", views.test_model, name="test_model"),
     path('datasets/', views.datasets, name='datasets'),
     path('datasets/<str:dataset_name>/', views.dataset_detail, name='dataset_detail'),
     path("game/", views.main_game_screen, name="game"),
@@ -13,5 +13,8 @@ urlpatterns = [
     path("game/gameplay", views.game, name="gameplay"),
     path("game/leaderboard/", views.leaderboard, name="leaderboard"),
     path("about-us/", views.about_us, name="about-us"),
-    path("index/", views.index, name='index')
+    path("index/", views.index, name='index'),
+    path("game/save_predictions/", views.save_predictions, name="save_predictions"),
+    path("game/round_results", views.round_results, name="round_results"),
+    path("game/game_results", views.game_results, name="game_results"),
 ]

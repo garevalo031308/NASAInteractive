@@ -6,50 +6,21 @@
     <title>Classifier Clash - Gameplay</title>
     <link rel="icon" type="image/x-icon" href="{% static 'images/game/classifier_clash.png' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/game/gameplay.css' %}">
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="{% static "scripts/game/gameplay.js" %}"></script>
-    <script src="{% static 'scripts/game/model_guessing.js' %}"></script>
     <script>
         const model = "{{ model }}";
         const image = "{% static round_image|safe %}";
         const round_number = {{ round_number }};
         const classChoices = {{ model_class_choices|safe }};
         const correct_class = "{{ correct_class }}";
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Create a countdown timer element
-            const countdownTimer = document.createElement('div');
-            countdownTimer.id = 'countdown-timer';
-            countdownTimer.style.position = 'fixed';
-            countdownTimer.style.top = '10px';
-            countdownTimer.style.right = '10px';
-            countdownTimer.style.fontSize = '2em';
-            countdownTimer.style.color = 'black';
-            document.body.appendChild(countdownTimer);
-
-            // Countdown timer logic
-            let countdown = 30;
-            countdownTimer.innerText = `Time left: ${countdown} seconds`;
-
-            const interval = setInterval(() => {
-                countdown -= 1;
-                countdownTimer.innerText = `Time left: ${countdown} seconds`;
-
-                if (countdown === 0) {
-                    clearInterval(interval);
-                    countdownTimer.style.display = 'none';
-                    document.getElementById('waiting-screen').style.display = 'flex';
-                }
-            }, 1000);
-        });
+        const gameid = {{ gameid }}
     </script>
 </head>
 <body>
 <div id="aimodel"><h1>{{ model }}</h1></div>
 <img id="image" alt="image" src="{% static round_image %}"/>
 {% for cls in class_choices %}
-    <button>{{ cls }}</button>
+    <button class="class-buttons">{{ cls }}</button>
 {% endfor %}
 <p>{{ round_image }}</p>
 <div id="modelguess"></div>
