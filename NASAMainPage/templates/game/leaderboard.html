@@ -1,10 +1,37 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Classifier Clash - Gameplay</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/game/classifier_clash.png' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/game/gameplay.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/game/leaderboard.css' %}">
 </head>
 <body>
-
+<h1 class="ltitle">Leaderboard</h1>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Player Score</th>
+        <th>AI Model</th>
+        <th>AI Score</th>
+        <th>Dataset</th>
+        <th>Winner</th>
+    </tr>
+{% for player in scores %}
+    {% for name, details in player.items %}
+    <tr>
+        <td>{{ name }}</td>
+        <td>{{ details.PlayerScore }}</td>
+        <td>{{ details.AIScore }}</td>
+        <td>{{ details.Model }}</td>
+        <td>{{ details.Dataset }}</td>
+        <td>{{ details.Winner }}</td>
+    </tr>
+    {% endfor %}
+{% endfor %}
+</table>
+<button type="button" onclick="location.href='{% url 'game' %}'">Back</button>
 </body>
 </html>

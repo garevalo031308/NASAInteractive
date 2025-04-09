@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+table, th, td {
+    border: 1px solid white;
+}
+
+body {
+    color:white;
+    background: linear-gradient(90deg, #225CD4 0%, #000000 50%, #FF241F 100%);
+    display: block;
+}
+
+#ltitle{
+    text-align: center;
+    align-content: center;
+}

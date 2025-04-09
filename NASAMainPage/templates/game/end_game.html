@@ -8,6 +8,9 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/game/gameplay.css' %}">
 </head>
 <body>
-
+    <h1>Winner: {{ winner }}</h1>
+    <h2>Player Total Score: {{ score }}</h2>
+    <h2>{{ ai_model }} Total Score: {{ ai_score }}</h2>
+    <button type="button" onclick="location.href='{% url 'game' %}'">Back</button>
 </body>
 </html>

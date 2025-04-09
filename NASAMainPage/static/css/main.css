@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 #NASALogo {
     width: 236px; /* Set the desired width */
     height: 216px;

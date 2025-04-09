@@ -95,11 +95,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function displayModels(dataset_name){
         model_div.innerHTML = ""
-
+        const modelTitle = document.createElement("h2")
+        modelTitle.innerText = "Model"
+        model_div.appendChild(modelTitle)
         for (const [dataset, models] of Object.entries(dataset_to_models)){
-            const modelTitle = document.createElement("h2")
-            modelTitle.innerText = "Model"
-            model_div.appendChild(modelTitle)
             if (dataset_name === dataset){
                 for (let model of models){
                     const modelButton = document.createElement('button')

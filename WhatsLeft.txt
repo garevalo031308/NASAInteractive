@@ -1,12 +1,7 @@
-- Make sure game is playable with different game modes
-- Make sure main functions of website is usable
-- Change design UI
-- (Possible) Deploy it
+Whats Left:
 
-
-- Gameplay:
-- Make sure game is playable
-- User selects a class and checks to see if its corerct or not
-- After round end send to round screen to show results, tehn click on next
-- After clicking on next, update data and then send to next round
-- Loop: Gameplay -> Round -> Gameplay -> Repeat till rounds left and number of rounds = 5
+Implementation of definitions
+CSS for end_game, definitions
+Removing fake data
+CSS rework for model
+Fixing current data of some of the data

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Classifier Clash - Gameplay</title>
     <link rel="icon" type="image/x-icon" href="{% static 'images/game/classifier_clash.png' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/game/gameplay.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/game/result.css' %}">
     <script src="{% static 'scripts/game/round_results.js' %}"></script>
     <script>
         const gameid = {{ gameid }}
@@ -14,12 +14,14 @@
 </head>
 <body>
     <button id="NextRound">Next</button>
-    <div id="aimodel"><h1>{{ selected_class }}</h1></div>
-    <div id="aimodel"><h1>{{ time_taken }}</h1></div>
-    <div id="aimodel"><h1>{{ correct_answer }}</h1></div>
-    <div id="aimodel"><h1>{{ ai_score }}</h1></div>
-    <div id="aimodel"><h1>{{ player_score }}</h1></div>
-    <div id="aimodel"><h1>{{ ai_time }}</h1></div>
-    <div id="aimodel"><h1>{{ ai_answer }}</h1></div>
+    <div id="aimodel"><h1>Selected Class: {{ selected_class }}</h1></div>
+    <div id="aianswer"><h1>AI Selected Class: {{ ai_answer }}</h1></div>
+    <div id="correctclass"><h1>Correct Class: {{ correct_answer }}</h1></div>
+    <div id="timetaken"><h1>Time Taken: {{ time_taken }}</h1></div>
+    <div id="aitime"><h1>AI Time: {{ ai_time }}</h1></div>
+    <div id="playerscore"><h1>Player Score: {{ player_score }}</h1></div>
+    <div id="playertotalscore"><h1>Total Player Score: {{ total_player_score }}</h1></div>
+    <div id="aiscore"><h1>AI Score: {{ ai_score }}</h1></div>
+    <div id="aitotalscore"><h1>Total AI Score: {{ total_ai_score }}</h1></div>
 </body>
 </html>

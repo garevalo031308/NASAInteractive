@@ -250,7 +250,8 @@ def model_prepping(request):
         current_round_image = random_image_list[i]
         current_round_cls = list(current_round_image.keys())[0]
         image_path = current_round_image[current_round_cls]
-        picture_instance = get_object_or_404(Picture, image=os.path.join("NASAMainPage\\static\\", image_path))
+        print(image_path)
+        picture_instance = get_object_or_404(Picture, image=os.path.join("NASAMainPage/static/", image_path))
         new_round = Round(gameID=upload_game, round_number=i+1, score=0,
                           correct=False, image=picture_instance, ai_score=0,
                           player_time=0, player_answer="", ai_time=0, ai_answer="",
@@ -337,7 +338,7 @@ def round_results(request):
         beat_ai_time = False
 
     player_score = calculate_score(correct_answer, float(time_taken), beat_ai_time)
-    ai_score = calculate_ai_score(correct_answer, ai_time)
+    ai_score = calculate_ai_score(current_round.ai_correct, ai_time)
 
     print("Player Score:", player_score)
     print("AI Score:", ai_score)
@@ -361,11 +362,13 @@ def round_results(request):
 
     context = {
         'selected_class': selected_class,
-        'time_taken': time_taken,
+        'time_taken': int(time_taken)/1000,
         'correct_answer': current_round.image.dataset_class.dataset_class_name,
         'ai_score': ai_score,
+        'total_ai_score': game.ai_total_score,
         'player_score': player_score,
-        'ai_time': current_round.ai_time,
+        'total_player_score' : game.total_score,
+        'ai_time': current_round.ai_time/1000,
         'ai_answer': current_round.ai_answer,
         'gameid': game_id,
         'round_number': current_round.round_number,
@@ -382,8 +385,17 @@ def game_results(request):
                                   game_mode=game.gamemode, ai_model=game.ai_model, dataset=game.dataset,
                                   ai_score=game.ai_total_score)
 
+    if game.total_score > game.ai_total_score:
+        winner=game.username
+    else:
+        winner=game.ai_model.model_name
     new_leaderboard.save()
-    context = {}
+    context = {
+        "score" : game.total_score,
+        "ai_score" : game.ai_total_score,
+        "ai_model" : game.ai_model,
+        "winner" : winner
+    }
     return render(request, "game/end_game.html", context)
 
 @csrf_exempt
@@ -402,6 +414,7 @@ def save_predictions(request):
             if i < len(results):
                 result = results[i]
                 predicted_class = result.get('predictedClass')
+                print(predicted_class)
                 time_taken = result.get('timeTaken')
                 print(f"Prediction Result {i+1}: Class - {predicted_class}, Time Taken - {time_taken} ms")
                 ai_rounds = get_object_or_404(Round, gameID=game_id, round_number=i+1)
@@ -416,7 +429,25 @@ def save_predictions(request):
     return JsonResponse({'status': 'error'}, status=400)
 
 def leaderboard(request):
-    return render(request, "game/leaderboard.html")
+    all_scores = Leaderboard.objects.all()
+
+    scores_dict = []
+
+    for i in range(len(all_scores)):
+        scores_dict.append({
+            all_scores[i].username: {
+                "PlayerScore" : all_scores[i].score,
+                "AIScore" : all_scores[i].ai_score,
+                "Dataset" : all_scores[i].dataset.dataset_name,
+                "Model" : all_scores[i].ai_model.model_name,
+                "Winner" : (all_scores[i].username if all_scores[i].score > all_scores[i].ai_score else all_scores[i].ai_model.model_name)
+            }
+        })
+
+    context = {
+        "scores" : scores_dict
+    }
+    return render(request, "game/leaderboard.html", context)
 
 
 def about_us(request):

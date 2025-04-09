@@ -1,6 +1,6 @@
-body{
-    display: block;
-    align-items: flex-start;
+body {
+    background: linear-gradient(90deg, #225CD4 0%, #000000 50%, #FF241F 100%);
+    color: white;
 }
 
 #title{

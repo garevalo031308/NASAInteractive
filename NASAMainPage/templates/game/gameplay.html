@@ -17,13 +17,14 @@
     </script>
 </head>
 <body>
-<div id="aimodel"><h1>{{ model }}</h1></div>
-<img id="image" alt="image" src="{% static round_image %}"/>
-{% for cls in class_choices %}
-    <button class="class-buttons">{{ cls }}</button>
-{% endfor %}
-<p>{{ round_image }}</p>
-<div id="modelguess"></div>
-<div>{{ correct_class }}</div>
+<div id="timer"></div>
+<div id="main-content">
+    <img id="image" alt="image" src="{% static round_image %}" />
+    <div class="button-container">
+        {% for cls in class_choices %}
+            <button class="class-buttons">{{ cls }}</button>
+        {% endfor %}
+    </div>
+</div>
 </body>
 </html>

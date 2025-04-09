@@ -47,18 +47,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             });
     }
 
-    function displayImages() {
-        round_images.forEach(imageData => {
-            for (const [cls, imgSrc] of Object.entries(imageData)) {
-                console.log(imgSrc, cls)
-                const imgElement = document.createElement('img');
-                imgElement.src = `/static/${imgSrc}`;
-                imgElement.alt = cls;
-                imageContainer.appendChild(imgElement);
-            }
-        });
-    }
-
     function startGame() {
         const url = new URL('NASAMainPage/game/gameplay', window.location.origin);
         url.searchParams.append('gameid', game_id);
@@ -73,11 +61,9 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     if (localStorage.getItem(model + '_modelLoaded') === 'true') {
         statusDiv.innerText = 'Model already loaded';
-        displayImages();
         startGame();
     } else {
         await loadModelFromDirectory(modelDirectory, model);
-        displayImages();
         startGame();
     }
 });
