@@ -452,3 +452,36 @@ def leaderboard(request):
 
 def about_us(request):
     return render(request, "about_us.html")
+
+
+def guess_number(request):
+    number = request.session.get('number_to_guess')
+    attempts = request.session.get('attempts', 0)
+    message = ""
+
+    if number is None:
+        number = random.randint(1, 100)
+        request.session['number_to_guess'] = number
+        request.session['attempts'] = attempts
+
+    if request.method == 'POST':
+        guess_value = request.POST.get('guess')
+        if guess_value:
+            guess = int(guess_value)
+            attempts += 1
+            request.session['attempts'] = attempts
+
+            if guess < number:
+                message = 'Higher!'
+            elif guess > number:
+                message = 'Lower!'
+            else:
+                message = f'Correct! You guessed the number in {attempts} attempts.'
+                del request.session['number_to_guess']
+                del request.session['attempts']
+                number = None
+
+    return render(request, 'game/guess_number.html', {
+        'message': message,
+        'attempts': attempts,
+    })
