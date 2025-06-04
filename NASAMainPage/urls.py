@@ -17,4 +17,5 @@ urlpatterns = [
     path("game/save_predictions/", views.save_predictions, name="save_predictions"),
     path("game/round_results", views.round_results, name="round_results"),
     path("game/game_results", views.game_results, name="game_results"),
+    path("game/guess_number/", views.guess_number, name="guess_number"),
 ]
